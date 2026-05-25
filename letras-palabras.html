@@ -1,0 +1,2416 @@
+﻿<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letras y Palabras A-Z</title>
+
+<link href="https://fonts.cdnfonts.com/css/senturigotin" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="imagenes/favicon.png">
+
+<style>
+.modal-feedback {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+.modal-feedback.mostrar { display: flex; }
+.modal-content-feedback {
+    background: transparent;
+    padding: 0;
+    border-radius: 40px;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.modal-feedback h2 {
+    font-size: 48px;
+    margin: 12px 0 0 0;
+    color: white;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+#feedbackImg {
+    width: 260px;
+    max-width: 70vw;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+    animation: popIn 0.35s ease;
+}
+
+/* ===== CAMINO DE ACTIVIDADES ===== */
+.camino-container {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+    height: calc(100vh - 250px);
+    min-height: 650px;
+    max-height: 900px;
+    margin: 4px auto 0;
+    overflow: visible;
+}
+.camino-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+.camino-parada {
+    position: absolute;
+    width: clamp(120px, 16vh, 190px);
+    aspect-ratio: 1;
+    background: transparent;
+    border-radius: 16px;
+    box-shadow: none;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 2;
+    transition: transform 0.16s, box-shadow 0.16s;
+}
+.camino-parada:hover { filter: drop-shadow(0 8px 16px rgba(0,0,0,0.28)); }
+.camino-parada img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: transparent;
+    border-radius: 12px;
+}
+.camino-label {
+    font-size: clamp(11px, 1.8vh, 15px);
+    font-weight: bold;
+    padding: 6px 4px 7px;
+    color: #1b5e20;
+    background: white;
+    line-height: 1.2;
+}
+.camino-num {
+    position: absolute;
+    top: 7px; left: 7px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+.cp1 { top: 1%;  left: 3%; }
+.cp2 { top: 13%; right: 3%; }
+.cp3 { top: 26%; left: 3%; }
+.cp4 { top: 39%; right: 3%; }
+.cp5 { top: 52%; left: 3%; }
+.cp6 { top: 65%; right: 3%; }
+.cp7 { top: 78%; left: 3%; }
+.cp6, .cp7 { width: clamp(165px, 21vh, 260px); }
+.cp1:hover, .cp2:hover, .cp3:hover, .cp4:hover, .cp5:hover, .cp6:hover, .cp7:hover { transform: scale(1.08); }
+.cp1:active, .cp2:active, .cp3:active, .cp4:active, .cp5:active, .cp6:active, .cp7:active { transform: scale(0.93); }
+#nivel h1 { font-size: 30px; margin: 6px 0 2px; }
+
+body {
+    margin: 0;
+    font-family: Comic Sans MS, Arial;
+    text-align: center;
+    background: linear-gradient(to bottom,#8fb3e0,#a8d0e6);
+    padding-top: 100px;
+}
+h1 { font-size: 55px; margin: 40px 0; }
+
+.score { font-size: 28px; margin-bottom: 10px; }
+
+.grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 16px;
+}
+
+.card {
+    background: #eaeaea;
+    width: 240px;
+    height: 220px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    font-size: 22px;
+}
+.card:hover { transform: scale(1.1); background: white; }
+.card img { width: 90%; height: 110px; object-fit: contain; margin-bottom: 15px; }
+
+.big-btn {
+    width: 220px;
+    height: 220px;
+    border: none;
+    border-radius: 30px;
+    margin: 20px;
+    cursor: pointer;
+    font-size: 38px;
+    font-weight: bold;
+    color: #e00000;
+    background: white;
+    font-family: 'Andika', sans-serif;
+    text-transform: lowercase;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    transition: 0.3s;
+}
+.big-btn:hover { transform: scale(1.08); box-shadow: 0 10px 24px rgba(0,0,0,0.22); }
+
+.asociacion-tablero {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: 18px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 10px 18px;
+}
+.asociacion-columna {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+    align-content: start;
+}
+.asociacion-card {
+    min-height: 112px;
+    border: 4px solid transparent;
+    border-radius: 18px;
+    background: white;
+    color: #e00000;
+    cursor: pointer;
+    font-family: 'Andika', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+    transition: transform .16s, border-color .16s, opacity .16s;
+}
+.asociacion-card:hover { transform: scale(1.04); }
+.asociacion-card.seleccionada { border-color: #ffbf00; background: #fff7d6; }
+.asociacion-card.completada { opacity: .45; cursor: default; transform: none; }
+.asociacion-card img {
+    width: 100%;
+    height: 96px;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 700px) {
+    .asociacion-tablero { grid-template-columns: 1fr; gap: 10px; }
+    .asociacion-columna { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+    .asociacion-card { min-height: 88px; font-size: 18px; }
+    .asociacion-card img { height: 76px; }
+}
+
+.asociacion-imagen-card {
+    background: transparent;
+    box-shadow: none;
+    min-height: 150px;
+    padding: 0;
+}
+.asociacion-imagen-card img {
+    height: 145px;
+    width: 100%;
+    object-fit: contain;
+    background: transparent;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
+}
+.asociacion-imagen-card.seleccionada {
+    background: transparent;
+    border-color: #ffbf00;
+}
+@media (max-width: 700px) {
+    .asociacion-imagen-card { min-height: 120px; }
+    .asociacion-imagen-card img { height: 116px; }
+}
+.section { display: none; }
+
+.back {
+    margin: 30px;
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 20px;
+    background: #ff6b6b;
+    color: white;
+    cursor: pointer;
+}
+
+.logo-esquina { position: fixed; top: 10px; z-index: 1000; }
+.logo-esquina img { height: 12vw; max-height: 180px; }
+.logo-esquina.izquierda { left: 10px; }
+.logo-esquina.derecha { right: 10px; }
+
+@media (max-width: 480px){
+    h1 { font-size: 7vw; margin: 3vw 0 1.5vw 0; }
+    .score { font-size: 5vw; margin-bottom: 4px; }
+    .grid { gap: 12px; padding: 10px; }
+    .card { width: 40vw; height: 40vw; font-size: 4vw; }
+    .card img { width: 90%; height: 20vw; object-fit: contain; }
+    .big-btn { width: 34vw; height: 34vw; font-size: 4vw; margin: 5px; }
+    .back { font-size: 4vw; padding: 2.5vw 5vw; margin: 10px; }
+    .logo-esquina img { height: 15vw; }
+}
+@media (min-width: 481px) and (max-width: 1024px){
+    h1 { font-size: 6vw; margin: 4vw 0 2vw 0; }
+    .score { font-size: 3.5vw; }
+    .grid { gap: 20px; padding: 16px; }
+    .card { width: 30vw; height: 30vw; font-size: 3vw; }
+    .card img { width: 90%; height: 16vw; object-fit: contain; }
+    .big-btn { width: 28vw; height: 28vw; font-size: 3vw; margin: 8px; }
+    .back { font-size: 3vw; padding: 2vw 4vw; }
+    .logo-esquina img { height: 13vw; }
+}
+
+.modulo-banda {
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 14px 30px;
+    margin: 9px auto;
+    max-width: 540px;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.22);
+    transition: transform 0.18s, box-shadow 0.18s;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+}
+.modulo-banda:hover { transform: scale(1.05) translateX(6px); box-shadow: 0 10px 28px rgba(0,0,0,0.3); }
+.banda-emoji { font-size: clamp(26px,5vw,36px); margin-right: 14px; flex-shrink: 0; }
+.banda-nombre { font-size: clamp(19px,4vw,26px); flex: 1; text-align: left; text-shadow: 0 2px 4px rgba(0,0,0,0.25); }
+.banda-deco { font-size: clamp(16px,3vw,22px); opacity: 0.9; flex-shrink: 0; }
+
+.mascota-lado { display: none; pointer-events: none; position: fixed; z-index: 1; }
+@media (min-width: 900px){
+    .mascota-lado { display: block; font-size: 90px; bottom: 60px; }
+    .mascota-izq  { left: 10px;  animation: bounce-slow 3s ease-in-out infinite; }
+    .mascota-der  { right: 10px; animation: sway-slow 2.5s ease-in-out infinite; }
+}
+@media (min-width: 1200px){ .mascota-lado { font-size: 120px; } }
+
+.letra-arco { display: inline-block; animation: letra-baile 1.8s ease-in-out infinite; }
+.letra-arco:nth-child(2){animation-delay:.12s}
+.letra-arco:nth-child(3){animation-delay:.24s}
+.letra-arco:nth-child(4){animation-delay:.36s}
+.letra-arco:nth-child(5){animation-delay:.48s}
+.letra-arco:nth-child(6){animation-delay:.60s}
+.letra-arco:nth-child(7){animation-delay:.72s}
+.letra-arco:nth-child(8){animation-delay:.84s}
+.letra-arco:nth-child(9){animation-delay:.96s}
+.letra-arco:nth-child(10){animation-delay:1.08s}
+
+@keyframes bounce-slow {
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+}
+@keyframes sway-slow {
+    0%,100%{transform:rotate(-8deg) translateY(0)}
+    50%{transform:rotate(8deg) translateY(-8px)}
+}
+@keyframes letra-baile {
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-6px) rotate(-4deg)}
+    75%{transform:translateY(3px) rotate(4deg)}
+}
+
+@media (max-width:480px){
+    .modulo-banda{padding:11px 18px;border-radius:40px;margin:7px auto;}
+    .banda-nombre{font-size:clamp(15px,4.5vw,19px);}
+}
+
+/* === CONTROL DE VOLUMEN === */
+#control-volumen {
+    position: fixed; bottom: 18px; right: 18px;
+    z-index: 10000; display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+}
+#btn-volumen {
+    width: 54px; height: 54px; border-radius: 50%;
+    border: 3px solid #FF9100; background: rgba(255,255,255,0.95);
+    font-size: 26px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+    transition: transform 0.15s, background 0.15s;
+    line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+#btn-volumen:hover { transform: scale(1.12); background: white; }
+#panel-volumen {
+    display: none; flex-direction: column; align-items: center;
+    background: rgba(255,255,255,0.97); border-radius: 22px;
+    padding: 12px 10px 8px; box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    gap: 5px; border: 2px solid #FF9100;
+}
+#panel-volumen.abierto { display: flex; }
+#slider-vol {
+    writing-mode: vertical-lr; direction: rtl;
+    width: 6px; height: 85px; cursor: pointer; accent-color: #FF9100;
+}
+.vol-label { font-size: 11px; color: #888; font-family: Arial, sans-serif; font-weight: bold; }
+@media (max-width: 480px) {
+    #control-volumen { bottom: 12px; right: 10px; }
+    #btn-volumen { width: 46px; height: 46px; font-size: 22px; }
+    #slider-vol { height: 70px; }
+}
+
+/* === BOTÓN HOME GLOBAL === */
+#btn-home-global {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    z-index: 10000;
+}
+#btn-home-global button {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 3px solid #FF5252;
+    background: rgba(255,255,255,0.95);
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+    transition: transform 0.15s, background 0.15s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn-home-global button:hover { transform: scale(1.12); background: white; }
+@media (max-width: 480px) {
+    #btn-home-global { bottom: 12px; left: 10px; }
+    #btn-home-global button { width: 46px; height: 46px; font-size: 22px; }
+}
+
+/* === FONDO DE MÓDULOS === */
+#fondo-modulos {
+    display: none; position: fixed; inset: 0; z-index: -1;
+    background: url('imagenes/Fondo.png') no-repeat center center / cover;
+}
+@media (min-width: 768px) {
+    #fondo-modulos { background-image: url('imagenes/Fondo2.png'); }
+}
+</style>
+</head>
+
+<body>
+<div id="fondo-modulos"></div>
+
+<audio id="musica-fondo" src="audios/Sonido Pagina.mp3" loop preload="auto"></audio>
+
+<div id="modalFeedback" class="modal-feedback">
+    <div class="modal-content-feedback">
+        <img id="feedbackImg" src="" alt="">
+        <h2 id="feedbackText"></h2>
+    </div>
+</div>
+
+<div class="logo-esquina izquierda" id="logo-izq" style="display:none">
+    <img src="imagenes/logo_umes.png" alt="Logo UMES">
+</div>
+<div class="logo-esquina derecha" id="logo-der" style="display:none">
+    <img src="imagenes/logo_mineduc.png" alt="Logo Ministerio de Educación">
+</div>
+
+<div id="nivel" class="section"></div>
+
+<div id="actividad" class="section">
+    <div id="contenido"></div>
+    <div style="padding:0 16px;max-width:540px;margin:10px auto;">
+        <div class="modulo-banda" style="background:#FF9100;" onclick="volverNivel()">
+            <span class="banda-emoji">↩️</span>
+            <span class="banda-nombre">Volver</span>
+            <span class="banda-deco">←</span>
+        </div>
+    </div>
+</div>
+
+<!-- Módulo Palabras A-Z -->
+<div id="palabrasAZ" class="section">
+    <h1>🔤 Palabras de la A a la Z</h1>
+    <div id="contenedor-letras" class="grid"></div>
+    <div id="contenedor-palabra-az" style="margin-top:30px;"></div>
+</div>
+
+<!-- Botón Home global (esquina inferior izquierda) -->
+<div id="btn-home-global">
+    <button onclick="window.location.href='index.html'" title="Pantalla principal">🏠</button>
+</div>
+
+<!-- Control de volumen flotante -->
+<div id="control-volumen">
+    <div id="panel-volumen">
+        <span class="vol-label" id="vol-pct">45%</span>
+        <input type="range" id="slider-vol" min="0" max="100" step="5" value="45"
+               oninput="cambiarVolumen(this.value)">
+        <span class="vol-label">🔇</span>
+    </div>
+    <button id="btn-volumen" onclick="togglePanelVol()" title="Volumen">🔊</button>
+</div>
+
+<script>
+
+/* ─── Utilidades ─── */
+function mezclar(arr){ return arr.sort(()=>Math.random()-0.5); }
+
+/* ─── Camino de actividades ─── */
+const _caminoPath = 'M 50 0 C 50 4,10 6,10 11 C 10 17,90 18,90 24 C 90 30,10 31,10 37 C 10 43,90 44,90 50 C 90 56,10 57,10 63 C 10 69,90 70,90 76 C 90 83,10 84,10 91 L 10 100';
+const _caminoImgs = ['Asociación.png','Selección.png','Clasificación.png','Denominación.png','Generalización.png','ComprensionLectora.jpg','Oraciones.jpg'];
+const _caminoPos = ['cp1','cp2','cp3','cp4','cp5','cp6','cp7'];
+
+function htmlCaminito(paradas) {
+    const cards = paradas.map((p, i) => `
+        <div class="camino-parada ${_caminoPos[i]}" onclick="${p.fn}">
+            <img src="imagenes/${_caminoImgs[i]}" alt="${p.nombre}">
+        </div>`).join('');
+    return `<div class="camino-container">
+        <svg class="camino-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="${_caminoPath}" stroke="rgba(0,70,0,0.20)" stroke-width="55" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#388e3c" stroke-width="46" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#66bb6a" stroke-width="36" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#c8e6c9" stroke-width="22" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="4 3" opacity="0.7" vector-effect="non-scaling-stroke"/>
+        </svg>
+        ${cards}
+    </div>`;
+}
+
+/* ─── Feedback modal ─── */
+const imgCorrectas = [
+    'imagenes/ZorroFeliz.png','imagenes/ZorroCantando.png','imagenes/MonoSorprendido.png',
+    'imagenes/JirafaEnamorada.png','imagenes/MonoEnamorado.png','imagenes/JirafaSorprendida.png'
+];
+const imgIncorrectas = ['imagenes/MonoEnojado.png','imagenes/JirafaTriste.png','imagenes/ZorroPensativo.png'];
+let idxCorrecto = 0, idxIncorrecto = 0;
+
+function mostrarFeedback(esCorrecto) {
+    const modal = document.getElementById('modalFeedback');
+    const img = document.getElementById('feedbackImg');
+    const text = document.getElementById('feedbackText');
+    const audio = new Audio(esCorrecto ? 'audios/correcto.mp3' : 'audios/incorecto.mp3');
+    audio.volume = 1;
+    audio.play().catch(()=>{});
+    if (esCorrecto) {
+        img.src = imgCorrectas[idxCorrecto % imgCorrectas.length];
+        idxCorrecto++;
+        text.textContent = '¡Muy bien!';
+    } else {
+        img.src = imgIncorrectas[idxIncorrecto % imgIncorrectas.length];
+        idxIncorrecto++;
+        text.textContent = 'Intenta otra vez';
+    }
+    modal.classList.add('mostrar');
+    setTimeout(() => { modal.classList.remove('mostrar'); }, 1500);
+}
+
+function hablarTexto(texto) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const voz = new SpeechSynthesisUtterance(texto);
+    voz.lang = 'es-ES';
+    voz.rate = 0.75;
+    voz.pitch = 1.05;
+    window.speechSynthesis.speak(voz);
+}
+
+function textoVozLetra(letra, nombre) {
+    const nombres = {
+        A: 'a',
+        B: 'be',
+        C: 'ce',
+        D: 'de',
+        E: 'e',
+        F: 'efe',
+        G: 'ge',
+        H: 'hache',
+        I: 'i',
+        J: 'jota',
+        K: 'ka',
+        L: 'ele',
+        M: 'eme',
+        N: 'ene',
+        O: 'o',
+        P: 'pe',
+        Q: 'cu',
+        R: 'erre',
+        S: 'ese',
+        T: 'te',
+        U: 'u',
+        V: 'uve',
+        W: 'doble uve',
+        X: 'equis',
+        Y: 'ye',
+        Z: 'zeta'
+    };
+    return nombres[letra] || nombre || letra;
+}
+
+function reproducirSonidoLetra(letra, nombre) {
+    const audio = new Audio('audios/' + letra + '.mp3');
+    let usoVoz = false;
+
+    const usarVoz = () => {
+        if (usoVoz) return;
+        usoVoz = true;
+        hablarTexto(textoVozLetra(letra, nombre));
+    };
+
+    audio.onerror = usarVoz;
+    audio.play().catch(usarVoz);
+}
+
+/* ─── Módulo Palabras A-Z ─── */
+const palabrasAZ = [
+    {
+        "letra":  "A",
+        "palabra":  "aguacate",
+        "imagen":  "imagenes A-Z/Aguacate.png"
+    },
+    {
+        "letra":  "A",
+        "palabra":  "araña",
+        "imagen":  "imagenes A-Z/Araña.png"
+    },
+    {
+        "letra":  "A",
+        "palabra":  "arbol",
+        "imagen":  "imagenes A-Z/Arbol.png"
+    },
+    {
+        "letra":  "A",
+        "palabra":  "avion",
+        "imagen":  "imagenes A-Z/Avion.png"
+    },
+    {
+        "letra":  "A",
+        "palabra":  "azul",
+        "imagen":  "imagenes A-Z/Azul.png"
+    },
+    {
+        "letra":  "B",
+        "palabra":  "banano",
+        "imagen":  "imagenes A-Z/Banano.png"
+    },
+    {
+        "letra":  "B",
+        "palabra":  "barco",
+        "imagen":  "imagenes A-Z/Barco.png"
+    },
+    {
+        "letra":  "B",
+        "palabra":  "bolsa",
+        "imagen":  "imagenes A-Z/Bolsa.png"
+    },
+    {
+        "letra":  "B",
+        "palabra":  "bota",
+        "imagen":  "imagenes A-Z/Bota.png"
+    },
+    {
+        "letra":  "B",
+        "palabra":  "burro",
+        "imagen":  "imagenes A-Z/Burro.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "caja",
+        "imagen":  "imagenes A-Z/Caja.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "cama",
+        "imagen":  "imagenes A-Z/Cama.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "carreta",
+        "imagen":  "imagenes A-Z/carreta.jpeg"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "casa",
+        "imagen":  "imagenes A-Z/Casa.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chancleta",
+        "imagen":  "imagenes A-Z/Chancleta.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chicle",
+        "imagen":  "imagenes A-Z/Chicle.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chile",
+        "imagen":  "imagenes A-Z/Chile.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chocolate",
+        "imagen":  "imagenes A-Z/Chocolate.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chompipe",
+        "imagen":  "imagenes A-Z/Chompipe.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "chumpa",
+        "imagen":  "imagenes A-Z/Chumpa.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "coco",
+        "imagen":  "imagenes A-Z/Coco.png"
+    },
+    {
+        "letra":  "C",
+        "palabra":  "conejo",
+        "imagen":  "imagenes A-Z/Conejo.png"
+    },
+    {
+        "letra":  "D",
+        "palabra":  "dedo",
+        "imagen":  "imagenes A-Z/Dedo.png"
+    },
+    {
+        "letra":  "D",
+        "palabra":  "diente",
+        "imagen":  "imagenes A-Z/Diente.png"
+    },
+    {
+        "letra":  "D",
+        "palabra":  "dona",
+        "imagen":  "imagenes A-Z/Dona.png"
+    },
+    {
+        "letra":  "D",
+        "palabra":  "dulce",
+        "imagen":  "imagenes A-Z/Dulce.png"
+    },
+    {
+        "letra":  "D",
+        "palabra":  "durazno",
+        "imagen":  "imagenes A-Z/Durazno.png"
+    },
+    {
+        "letra":  "E",
+        "palabra":  "elefante",
+        "imagen":  "imagenes A-Z/Elefante.png"
+    },
+    {
+        "letra":  "E",
+        "palabra":  "elote",
+        "imagen":  "imagenes A-Z/Elote.png"
+    },
+    {
+        "letra":  "E",
+        "palabra":  "escalera",
+        "imagen":  "imagenes A-Z/Escalera.png"
+    },
+    {
+        "letra":  "E",
+        "palabra":  "escoba",
+        "imagen":  "imagenes A-Z/Escoba.png"
+    },
+    {
+        "letra":  "E",
+        "palabra":  "espejo",
+        "imagen":  "imagenes A-Z/Espejo.png"
+    },
+    {
+        "letra":  "F",
+        "palabra":  "flauta",
+        "imagen":  "imagenes A-Z/flauta.jpeg"
+    },
+    {
+        "letra":  "F",
+        "palabra":  "flor",
+        "imagen":  "imagenes A-Z/flor.jpeg"
+    },
+    {
+        "letra":  "F",
+        "palabra":  "foca",
+        "imagen":  "imagenes A-Z/foca.jpeg"
+    },
+    {
+        "letra":  "F",
+        "palabra":  "foco",
+        "imagen":  "imagenes A-Z/foco.jpeg"
+    },
+    {
+        "letra":  "F",
+        "palabra":  "fresa",
+        "imagen":  "imagenes A-Z/fresa.jpeg"
+    },
+    {
+        "letra":  "G",
+        "palabra":  "gato",
+        "imagen":  "imagenes A-Z/gato.jpeg"
+    },
+    {
+        "letra":  "G",
+        "palabra":  "globo",
+        "imagen":  "imagenes A-Z/globo.jpeg"
+    },
+    {
+        "letra":  "G",
+        "palabra":  "gorra",
+        "imagen":  "imagenes A-Z/gorra.jpeg"
+    },
+    {
+        "letra":  "G",
+        "palabra":  "guantes",
+        "imagen":  "imagenes A-Z/guantes.jpeg"
+    },
+    {
+        "letra":  "G",
+        "palabra":  "gusano",
+        "imagen":  "imagenes A-Z/gusano.jpeg"
+    },
+    {
+        "letra":  "H",
+        "palabra":  "helado",
+        "imagen":  "imagenes A-Z/helado.jpeg"
+    },
+    {
+        "letra":  "H",
+        "palabra":  "helicoptero",
+        "imagen":  "imagenes A-Z/helicoptero.jpeg"
+    },
+    {
+        "letra":  "H",
+        "palabra":  "hielo",
+        "imagen":  "imagenes A-Z/hielo.jpeg"
+    },
+    {
+        "letra":  "H",
+        "palabra":  "hilo",
+        "imagen":  "imagenes A-Z/hilo.jpeg"
+    },
+    {
+        "letra":  "H",
+        "palabra":  "huevo",
+        "imagen":  "imagenes A-Z/huevo.jpeg"
+    },
+    {
+        "letra":  "I",
+        "palabra":  "iglesia",
+        "imagen":  "imagenes A-Z/iglesia.jpeg"
+    },
+    {
+        "letra":  "I",
+        "palabra":  "iguana",
+        "imagen":  "imagenes A-Z/iguana.jpeg"
+    },
+    {
+        "letra":  "I",
+        "palabra":  "incendio",
+        "imagen":  "imagenes A-Z/incendio.jpeg"
+    },
+    {
+        "letra":  "I",
+        "palabra":  "inyeccion",
+        "imagen":  "imagenes A-Z/inyeccion.jpeg"
+    },
+    {
+        "letra":  "I",
+        "palabra":  "isla",
+        "imagen":  "imagenes A-Z/isla.jpeg"
+    },
+    {
+        "letra":  "J",
+        "palabra":  "jabon",
+        "imagen":  "imagenes A-Z/jabon.jpeg"
+    },
+    {
+        "letra":  "J",
+        "palabra":  "jaguar",
+        "imagen":  "imagenes A-Z/jaguar.jpeg"
+    },
+    {
+        "letra":  "J",
+        "palabra":  "jirafa",
+        "imagen":  "imagenes A-Z/jirafa.jpeg"
+    },
+    {
+        "letra":  "J",
+        "palabra":  "jugo",
+        "imagen":  "imagenes A-Z/jugo.jpeg"
+    },
+    {
+        "letra":  "J",
+        "palabra":  "juguetes",
+        "imagen":  "imagenes A-Z/juguetes.jpeg"
+    },
+    {
+        "letra":  "K",
+        "palabra":  "karaoke",
+        "imagen":  "imagenes A-Z/karaoke.jpeg"
+    },
+    {
+        "letra":  "K",
+        "palabra":  "karate",
+        "imagen":  "imagenes A-Z/karate.jpeg"
+    },
+    {
+        "letra":  "K",
+        "palabra":  "kiosco",
+        "imagen":  "imagenes A-Z/kiosco.jpeg"
+    },
+    {
+        "letra":  "K",
+        "palabra":  "kiwi",
+        "imagen":  "imagenes A-Z/kiwi.jpeg"
+    },
+    {
+        "letra":  "K",
+        "palabra":  "koala",
+        "imagen":  "imagenes A-Z/koala.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "lampara",
+        "imagen":  "imagenes A-Z/lampara.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "lapiz",
+        "imagen":  "imagenes A-Z/lapiz.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "leche",
+        "imagen":  "imagenes A-Z/leche.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "libro",
+        "imagen":  "imagenes A-Z/libro.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "limon",
+        "imagen":  "imagenes A-Z/limon.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "llama",
+        "imagen":  "imagenes A-Z/llama.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "llanta",
+        "imagen":  "imagenes A-Z/llanta.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "llave",
+        "imagen":  "imagenes A-Z/llave.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "llavero",
+        "imagen":  "imagenes A-Z/llavero.jpeg"
+    },
+    {
+        "letra":  "L",
+        "palabra":  "llorar",
+        "imagen":  "imagenes A-Z/llorar.jpeg"
+    },
+    {
+        "letra":  "M",
+        "palabra":  "mano",
+        "imagen":  "imagenes A-Z/mano.jpeg"
+    },
+    {
+        "letra":  "M",
+        "palabra":  "manzana",
+        "imagen":  "imagenes A-Z/manzana.jpeg"
+    },
+    {
+        "letra":  "M",
+        "palabra":  "mesa",
+        "imagen":  "imagenes A-Z/mesa.jpeg"
+    },
+    {
+        "letra":  "M",
+        "palabra":  "mono",
+        "imagen":  "imagenes A-Z/mono.jpeg"
+    },
+    {
+        "letra":  "M",
+        "palabra":  "moto",
+        "imagen":  "imagenes A-Z/moto.jpeg"
+    },
+    {
+        "letra":  "N",
+        "palabra":  "naranja",
+        "imagen":  "imagenes A-Z/naranja.jpeg"
+    },
+    {
+        "letra":  "N",
+        "palabra":  "nido",
+        "imagen":  "imagenes A-Z/nido.jpeg"
+    },
+    {
+        "letra":  "N",
+        "palabra":  "niño",
+        "imagen":  "imagenes A-Z/niño.jpeg"
+    },
+    {
+        "letra":  "N",
+        "palabra":  "nube",
+        "imagen":  "imagenes A-Z/nube.jpeg"
+    },
+    {
+        "letra":  "Ñ",
+        "palabra":  "ñandu",
+        "imagen":  "imagenes A-Z/ñandu.jpeg"
+    },
+    {
+        "letra":  "Ñ",
+        "palabra":  "ñoño",
+        "imagen":  "imagenes A-Z/ñoño.jpeg"
+    },
+    {
+        "letra":  "Ñ",
+        "palabra":  "ñu",
+        "imagen":  "imagenes A-Z/ñu.jpeg"
+    },
+    {
+        "letra":  "O",
+        "palabra":  "ojo",
+        "imagen":  "imagenes A-Z/ojo.jpeg"
+    },
+    {
+        "letra":  "O",
+        "palabra":  "olla",
+        "imagen":  "imagenes A-Z/olla.jpeg"
+    },
+    {
+        "letra":  "O",
+        "palabra":  "oreja",
+        "imagen":  "imagenes A-Z/oreja.jpeg"
+    },
+    {
+        "letra":  "O",
+        "palabra":  "oso",
+        "imagen":  "imagenes A-Z/oso.jpeg"
+    },
+    {
+        "letra":  "O",
+        "palabra":  "oveja",
+        "imagen":  "imagenes A-Z/oveja.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "pan",
+        "imagen":  "imagenes A-Z/pan.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "pato",
+        "imagen":  "imagenes A-Z/pato.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "pelota",
+        "imagen":  "imagenes A-Z/pelota.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "pera",
+        "imagen":  "imagenes A-Z/pera.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "perro",
+        "imagen":  "imagenes A-Z/perro.jpeg"
+    },
+    {
+        "letra":  "P",
+        "palabra":  "piña",
+        "imagen":  "imagenes A-Z/piña.jpeg"
+    },
+    {
+        "letra":  "Q",
+        "palabra":  "quemadura",
+        "imagen":  "imagenes A-Z/quemadura.jpeg"
+    },
+    {
+        "letra":  "Q",
+        "palabra":  "queso",
+        "imagen":  "imagenes A-Z/queso.jpeg"
+    },
+    {
+        "letra":  "Q",
+        "palabra":  "quetzal",
+        "imagen":  "imagenes A-Z/quetzal.jpeg"
+    },
+    {
+        "letra":  "Q",
+        "palabra":  "quince",
+        "imagen":  "imagenes A-Z/quince.jpeg"
+    },
+    {
+        "letra":  "R",
+        "palabra":  "regalo",
+        "imagen":  "imagenes A-Z/regalo.jpeg"
+    },
+    {
+        "letra":  "R",
+        "palabra":  "regla",
+        "imagen":  "imagenes A-Z/regla.jpeg"
+    },
+    {
+        "letra":  "R",
+        "palabra":  "reloj",
+        "imagen":  "imagenes A-Z/reloj.jpeg"
+    },
+    {
+        "letra":  "R",
+        "palabra":  "rojo",
+        "imagen":  "imagenes A-Z/rojo.jpeg"
+    },
+    {
+        "letra":  "R",
+        "palabra":  "rosa",
+        "imagen":  "imagenes A-Z/rosa.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "sal",
+        "imagen":  "imagenes A-Z/sal.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "saltar",
+        "imagen":  "imagenes A-Z/saltar.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "sandia",
+        "imagen":  "imagenes A-Z/sandia.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "sapo",
+        "imagen":  "imagenes A-Z/sapo.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "serrucho",
+        "imagen":  "imagenes A-Z/serrucho.jpeg"
+    },
+    {
+        "letra":  "S",
+        "palabra":  "sombrilla",
+        "imagen":  "imagenes A-Z/sombrilla.jpeg"
+    },
+    {
+        "letra":  "T",
+        "palabra":  "telefono",
+        "imagen":  "imagenes A-Z/telefono.jpeg"
+    },
+    {
+        "letra":  "T",
+        "palabra":  "tigre",
+        "imagen":  "imagenes A-Z/tigre.jpeg"
+    },
+    {
+        "letra":  "T",
+        "palabra":  "tijera",
+        "imagen":  "imagenes A-Z/tijera.jpeg"
+    },
+    {
+        "letra":  "T",
+        "palabra":  "tomate",
+        "imagen":  "imagenes A-Z/tomate.jpeg"
+    },
+    {
+        "letra":  "T",
+        "palabra":  "tortuga",
+        "imagen":  "imagenes A-Z/tortuga.jpeg"
+    },
+    {
+        "letra":  "U",
+        "palabra":  "uniforme",
+        "imagen":  "imagenes A-Z/uniforme.jpeg"
+    },
+    {
+        "letra":  "U",
+        "palabra":  "uno",
+        "imagen":  "imagenes A-Z/uno.jpeg"
+    },
+    {
+        "letra":  "U",
+        "palabra":  "uñas",
+        "imagen":  "imagenes A-Z/uñas.jpeg"
+    },
+    {
+        "letra":  "U",
+        "palabra":  "utiles",
+        "imagen":  "imagenes A-Z/utiles.jpeg"
+    },
+    {
+        "letra":  "U",
+        "palabra":  "uva",
+        "imagen":  "imagenes A-Z/uva.jpeg"
+    },
+    {
+        "letra":  "V",
+        "palabra":  "vaca",
+        "imagen":  "imagenes A-Z/vaca.jpeg"
+    },
+    {
+        "letra":  "V",
+        "palabra":  "vaso",
+        "imagen":  "imagenes A-Z/vaso.jpeg"
+    },
+    {
+        "letra":  "V",
+        "palabra":  "vela",
+        "imagen":  "imagenes A-Z/vela.jpeg"
+    },
+    {
+        "letra":  "V",
+        "palabra":  "ventana",
+        "imagen":  "imagenes A-Z/ventana.jpeg"
+    },
+    {
+        "letra":  "V",
+        "palabra":  "vestido",
+        "imagen":  "imagenes A-Z/vestido.jpeg"
+    },
+    {
+        "letra":  "W",
+        "palabra":  "wafle",
+        "imagen":  "imagenes A-Z/wafle.jpeg"
+    },
+    {
+        "letra":  "W",
+        "palabra":  "waflera",
+        "imagen":  "imagenes A-Z/waflera.jpeg"
+    },
+    {
+        "letra":  "W",
+        "palabra":  "walmart",
+        "imagen":  "imagenes A-Z/walmart.jpeg"
+    },
+    {
+        "letra":  "W",
+        "palabra":  "waterpolo",
+        "imagen":  "imagenes A-Z/waterpolo.jpeg"
+    },
+    {
+        "letra":  "W",
+        "palabra":  "wifi",
+        "imagen":  "imagenes A-Z/wifi.jpeg"
+    },
+    {
+        "letra":  "X",
+        "palabra":  "xeca",
+        "imagen":  "imagenes A-Z/xeca.jpeg"
+    },
+    {
+        "letra":  "X",
+        "palabra":  "xela",
+        "imagen":  "imagenes A-Z/xela.jpeg"
+    },
+    {
+        "letra":  "X",
+        "palabra":  "xetulul",
+        "imagen":  "imagenes A-Z/xetulul.jpeg"
+    },
+    {
+        "letra":  "X",
+        "palabra":  "xilofono",
+        "imagen":  "imagenes A-Z/xilofono.jpeg"
+    },
+    {
+        "letra":  "Y",
+        "palabra":  "yate",
+        "imagen":  "imagenes A-Z/yate.jpeg"
+    },
+    {
+        "letra":  "Y",
+        "palabra":  "yema",
+        "imagen":  "imagenes A-Z/yema.jpeg"
+    },
+    {
+        "letra":  "Y",
+        "palabra":  "yeso",
+        "imagen":  "imagenes A-Z/yeso.jpeg"
+    },
+    {
+        "letra":  "Y",
+        "palabra":  "yogurt",
+        "imagen":  "imagenes A-Z/yogurt.jpeg"
+    },
+    {
+        "letra":  "Y",
+        "palabra":  "yoyo",
+        "imagen":  "imagenes A-Z/yoyo.jpeg"
+    },
+    {
+        "letra":  "Z",
+        "palabra":  "zanahoria",
+        "imagen":  "imagenes A-Z/zanahoria.jpeg"
+    },
+    {
+        "letra":  "Z",
+        "palabra":  "zapato",
+        "imagen":  "imagenes A-Z/zapato.jpeg"
+    },
+    {
+        "letra":  "Z",
+        "palabra":  "zapote",
+        "imagen":  "imagenes A-Z/zapote.jpeg"
+    },
+    {
+        "letra":  "Z",
+        "palabra":  "zorro",
+        "imagen":  "imagenes A-Z/zorro.jpeg"
+    },
+    {
+        "letra":  "Z",
+        "palabra":  "zucchini",
+        "imagen":  "imagenes A-Z/zucchini.jpeg"
+    }
+];
+
+let letraActualAZ = 0;
+let palabraActualAZ = 0;
+let grupoActualAZ = 'A';
+
+function abrirPalabrasAZ() {
+    document.getElementById('nivel').style.display = 'none';
+    document.getElementById('actividad').style.display = 'none';
+    document.getElementById('palabrasAZ').style.display = 'block';
+    mostrarLetrasAZ();
+    document.getElementById('contenedor-palabra-az').innerHTML = '';
+    letraActualAZ = 0;
+    palabraActualAZ = 0;
+}
+
+function irAlAbecedario() {
+    document.getElementById('contenedor-letras').innerHTML = '';
+    document.getElementById('contenedor-palabra-az').innerHTML = '';
+    letraActualAZ = 0;
+    palabraActualAZ = 0;
+    mostrarLetrasAZ();
+}
+
+function volverInicioPalabrasAZ() {
+    document.getElementById('palabrasAZ').style.display = 'none';
+    letraActualAZ = 0;
+    palabraActualAZ = 0;
+    window.location.href = 'index.html';
+}
+
+function obtenerGruposAZ() {
+    const orden = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','RR','S','T','U','V','W','X','Y','Z'];
+    const existentes = new Set(palabrasAZ.map(item => item.letra));
+    return orden.filter(letra => letra === 'RR' || existentes.has(letra));
+}
+
+function palabrasPorGrupoAZ(grupo) {
+    if (grupo === 'RR') {
+        const rr = ['perro','zorro','burro','carreta','serrucho'];
+        return palabrasAZ.filter(item => rr.includes(item.palabra.toLowerCase()));
+    }
+    return palabrasAZ.filter(item => item.letra === grupo);
+}
+
+function mostrarLetrasAZ() {
+    const contenedor = document.getElementById('contenedor-letras');
+    document.getElementById('contenedor-palabra-az').innerHTML = '';
+    contenedor.innerHTML = obtenerGruposAZ().map(grupo =>
+        `<button class="big-btn" style="background:white; color:#e00000; font-size:${grupo === 'RR' ? '44px' : '58px'}; width:130px; height:130px; margin:10px;" onclick="mostrarGrupoAZ('${grupo}')">
+            ${grupo}
+        </button>`
+    ).join('');
+}
+
+function mostrarGrupoAZ(grupo) {
+    grupoActualAZ = grupo;
+    palabraActualAZ = 0;
+    mostrarPalabraGrupoAZ();
+}
+
+function mostrarPalabraGrupoAZ() {
+    const grupos = obtenerGruposAZ();
+    const items = palabrasPorGrupoAZ(grupoActualAZ);
+    const item = items[palabraActualAZ];
+
+    if (!item) {
+        avanzarGrupoAZ();
+        return;
+    }
+
+    const esUltimaPalabra = palabraActualAZ >= items.length - 1;
+    const esUltimoGrupo = grupos.indexOf(grupoActualAZ) >= grupos.length - 1;
+    const textoBoton = esUltimaPalabra ? (esUltimoGrupo ? 'Finalizar' : 'Siguiente letra') : 'Siguiente';
+
+    document.getElementById('contenedor-letras').innerHTML = '';
+    document.getElementById('contenedor-palabra-az').innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:350px; padding:0 16px;">
+            <div class="score" style="font-size:24px;">${grupoActualAZ} · ${palabraActualAZ + 1} / ${items.length}</div>
+            <h1 style="margin:8px 0 12px;">${grupoActualAZ === 'RR' ? 'RR' : 'Letra ' + grupoActualAZ}</h1>
+            <img src="${item.imagen}" alt="${item.palabra}" style="width:min(360px,78vw); height:min(360px,78vw); object-fit:contain; border-radius:30px; box-shadow:0 6px 18px rgba(0,0,0,0.18); background:white; margin-bottom:20px;">
+            <div style="font-size:clamp(42px,8vw,68px); color:#e00000; font-family:'Senturigotin', 'Comic Sans MS', Arial, sans-serif; margin-bottom:18px;">${item.palabra.toLowerCase()}</div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%; max-width:760px;">
+                <div class="modulo-banda" style="background:#FF9100; margin:0; min-width:240px;" onclick="siguientePalabraAZ()">
+                    <span class="banda-emoji">➡️</span>
+                    <span class="banda-nombre">${textoBoton}</span>
+                    <span class="banda-deco">→</span>
+                </div>
+                <div class="modulo-banda" style="background:#FF6B6B; margin:0; min-width:240px;" onclick="irAlAbecedario()">
+                    <span class="banda-emoji">↩️</span>
+                    <span class="banda-nombre">Volver a letras</span>
+                    <span class="banda-deco">←</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function siguientePalabraAZ() {
+    const grupos = obtenerGruposAZ();
+    const items = palabrasPorGrupoAZ(grupoActualAZ);
+    palabraActualAZ++;
+
+    if (palabraActualAZ >= items.length) {
+        const grupoIdx = grupos.indexOf(grupoActualAZ);
+        if (grupoIdx >= grupos.length - 1) {
+            document.getElementById('contenedor-palabra-az').innerHTML = `
+                <h1>&#127881; ¡Palabras terminadas!</h1>
+                ${botonRepetirHTML('repetirPalabrasAZ()')}
+                <div class="modulo-banda" style="background:#FF9100;margin-top:20px;" onclick="irAlAbecedario()">
+                    <span class="banda-emoji">↩️</span>
+                    <span class="banda-nombre">Volver a las letras</span>
+                    <span class="banda-deco">←</span>
+                </div>
+            `;
+            return;
+        }
+        grupoActualAZ = grupos[grupoIdx + 1];
+        palabraActualAZ = 0;
+    }
+
+    mostrarPalabraGrupoAZ();
+}
+
+function avanzarGrupoAZ() {
+    const grupos = obtenerGruposAZ();
+    const grupoIdx = grupos.indexOf(grupoActualAZ);
+    grupoActualAZ = grupos[Math.min(grupoIdx + 1, grupos.length - 1)];
+    palabraActualAZ = 0;
+    mostrarPalabraGrupoAZ();
+}
+
+function mostrarPalabraAZ(idx) {
+    const item = palabrasAZ[idx];
+    grupoActualAZ = item.letra;
+    const items = palabrasPorGrupoAZ(grupoActualAZ);
+    palabraActualAZ = Math.max(0, items.indexOf(item));
+    mostrarPalabraGrupoAZ();
+}
+
+/* ─── Módulo Letras ─── */
+let preguntasLetra = 0;
+let puntosLetra = 0;
+let subSeccionLetras = "menu";
+let letraActual = null;
+let faseLetraActual = 1;
+let seccionActual = "letras";
+let clasificacionActual = null;
+let letrasUsadas = [];
+let asociacionParesActuales = [];
+let asociacionImagenes = [];
+let asociacionPalabras = [];
+let asociacionSeleccion = null;
+let asociacionCompletadas = [];
+let memoriaPalabrasCards = [];
+let memoriaPalabrasSeleccion = null;
+let memoriaPalabrasCompletadas = [];
+let puntosMemoriaPalabras = 0;
+let generalizacionEscenasActuales = [];
+let generalizacionActual = null;
+let generalizacionSeleccionadas = [];
+let comprensionLecturaActuales = [];
+let comprensionLecturaIndice = 0;
+let oracionesActuales = [];
+let oracionesIndice = 0;
+
+const letrasData = [
+    {letra:'A', nombre:'A',         palabra:'Árbol',    imagen:'https://cdn.pixabay.com/photo/2016/04/01/09/27/tree-1296496_1280.png'},
+    {letra:'B', nombre:'Be',        palabra:'Ballena',  imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/whale-147010_1280.png'},
+    {letra:'C', nombre:'Ce',        palabra:'Casa',     imagen:'https://cdn.pixabay.com/photo/2012/04/13/00/21/home-31224_1280.png'},
+    {letra:'D', nombre:'De',        palabra:'Dado',     imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/dice-147008_1280.png'},
+    {letra:'E', nombre:'E',         palabra:'Elefante', imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/elephant-2024821_1280.png'},
+    {letra:'F', nombre:'Efe',       palabra:'Flor',     imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/flower-147011_1280.png'},
+    {letra:'G', nombre:'Ge',        palabra:'Gato',     imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/cat-2024796_1280.png'},
+    {letra:'H', nombre:'Hache',     palabra:'Helado',   imagen:'https://cdn.pixabay.com/photo/2014/12/21/23/50/ice-cream-579693_1280.png'},
+    {letra:'I', nombre:'I',         palabra:'Iglesia',  imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/church-147009_1280.png'},
+    {letra:'J', nombre:'Jota',      palabra:'Jirafa',   imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/giraffe-2024820_1280.png'},
+    {letra:'K', nombre:'Ka',        palabra:'Koala',    imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/koala-2024822_1280.png'},
+    {letra:'L', nombre:'Ele',       palabra:'Luna',     imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/moon-147012_1280.png'},
+    {letra:'M', nombre:'Eme',       palabra:'Manzana',  imagen:'https://cdn.pixabay.com/photo/2012/04/13/00/21/apple-31225_1280.png'},
+    {letra:'N', nombre:'Ene',       palabra:'Nube',     imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/cloud-147013_1280.png'},
+    {letra:'O', nombre:'O',         palabra:'Oso',      imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/bear-2024797_1280.png'},
+    {letra:'P', nombre:'Pe',        palabra:'Perro',    imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/dog-2024798_1280.png'},
+    {letra:'Q', nombre:'Cu',        palabra:'Queso',    imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/cheese-147014_1280.png'},
+    {letra:'R', nombre:'Erre',      palabra:'Ratón',    imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/mouse-2024800_1280.png'},
+    {letra:'S', nombre:'Ese',       palabra:'Sol',      imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/sun-147015_1280.png'},
+    {letra:'T', nombre:'Te',        palabra:'Tigre',    imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/tiger-2024801_1280.png'},
+    {letra:'U', nombre:'U',         palabra:'Uva',      imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/grapes-147016_1280.png'},
+    {letra:'V', nombre:'Uve',       palabra:'Vaca',     imagen:'https://cdn.pixabay.com/photo/2017/01/31/13/14/cow-2024802_1280.png'},
+    {letra:'W', nombre:'Doble-uve', palabra:'Wafle',    imagen:'https://cdn.pixabay.com/photo/2016/03/05/19/02/waffle-1238616_1280.jpg'},
+    {letra:'X', nombre:'Equis',     palabra:'Xilófono', imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/xylophone-147017_1280.png'},
+    {letra:'Y', nombre:'Ye',        palabra:'Yate',     imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/yacht-147018_1280.png'},
+    {letra:'Z', nombre:'Zeta',      palabra:'Zapato',   imagen:'https://cdn.pixabay.com/photo/2013/07/12/13/57/shoe-147019_1280.png'}
+];
+
+const clasificacionPalabrasData = [
+    {grupo:'familia', palabras:['mamá','papá','la niña','el niño','la cocina'], intrusa:'la cocina'},
+    {grupo:'partes del cuerpo', palabras:['el dedo','el ojo','la boca','la mano','el barco'], intrusa:'el barco'},
+    {grupo:'animales', palabras:['el pato','el gato','la vaca','el perro','morado'], intrusa:'morado'},
+    {grupo:'comida', palabras:['el pan','la sopa','el queso','la pizza','el avión'], intrusa:'el avión'},
+    {grupo:'bebidas', palabras:['la leche','el jugo','el agua','el café','la silla'], intrusa:'la silla'},
+    {grupo:'casa', palabras:['la casa','la sala','la cama','el baño','saltó'], intrusa:'saltó'},
+    {grupo:'colores', palabras:['rojo','azul','verde','amarillo','lee'], intrusa:'lee'},
+    {grupo:'frutas', palabras:['la uva','el banano','la fresa','la manzana','la bota'], intrusa:'la bota'},
+    {grupo:'objetos', palabras:['la mesa','la silla','la taza','el vaso','feo'], intrusa:'feo'},
+    {grupo:'ropa', palabras:['la gorra','el zapato','la camisa','el vestido','el sol'], intrusa:'el sol'},
+    {grupo:'acciones', palabras:['come','toma','mira','juega','la pelota'], intrusa:'la pelota'},
+    {grupo:'útiles', palabras:['el lápiz','la tijera','la hoja','el dado','el oso'], intrusa:'el oso'},
+    {grupo:'transportes', palabras:['la moto','la bici','el coche','el avión','bonito'], intrusa:'bonito'},
+    {grupo:'naturaleza', palabras:['el sol','la luna','el árbol','la hoja','la muñeca'], intrusa:'la muñeca'},
+    {grupo:'animales', palabras:['el pez','el oso','el caballo','el elefante','la naranja'], intrusa:'la naranja'}
+];
+
+const asociacionPalabrasData = [
+    {palabra:'mamá', imagen:'imagenes/mamá.jpeg'},
+    {palabra:'papá', imagen:'imagenes/papá.jpeg'},
+    {palabra:'el ojo', imagen:'imagenes A-Z/ojo.jpeg'},
+    {palabra:'la boca', imagen:'imagenes/la_boca.jpeg'},
+    {palabra:'el pato', imagen:'imagenes A-Z/pato.jpeg'},
+    {palabra:'la moto', imagen:'imagenes A-Z/moto.jpeg'},
+    {palabra:'el gato', imagen:'imagenes A-Z/gato.jpeg'},
+    {palabra:'la tele', imagen:'imagenes/la_tele.jpeg'},
+    {palabra:'el foco', imagen:'imagenes A-Z/foco.jpeg'},
+    {palabra:'la uva', imagen:'imagenes A-Z/uva.jpeg'},
+    {palabra:'el jugo', imagen:'imagenes A-Z/jugo.jpeg'},
+    {palabra:'la vaca', imagen:'imagenes A-Z/vaca.jpeg'},
+    {palabra:'el pan', imagen:'imagenes A-Z/pan.jpeg'},
+    {palabra:'el agua', imagen:'imagenes/el_agua.jpeg'},
+    {palabra:'el sol', imagen:'imagenes/el_sol.jpeg'},
+    {palabra:'la luna', imagen:'imagenes/la_luna.jpeg'},
+    {palabra:'la casa', imagen:'imagenes A-Z/Casa.png'},
+    {palabra:'el perro', imagen:'imagenes A-Z/perro.jpeg'},
+    {palabra:'la silla', imagen:'imagenes/la_silla.jpeg'},
+    {palabra:'la mesa', imagen:'imagenes A-Z/mesa.jpeg'},
+    {palabra:'el coche', imagen:'imagenes/el_coche.jpeg'},
+    {palabra:'la bici', imagen:'imagenes/la_bici.jpeg'},
+    {palabra:'el queso', imagen:'imagenes A-Z/queso.jpeg'},
+    {palabra:'la pizza', imagen:'imagenes/la_pizza.jpeg'},
+    {palabra:'el banano', imagen:'imagenes A-Z/Banano.png'},
+    {palabra:'la cama', imagen:'imagenes A-Z/Cama.png'},
+    {palabra:'la llave', imagen:'imagenes A-Z/llave.jpeg'},
+    {palabra:'la taza', imagen:'imagenes/la_taza.jpeg'},
+    {palabra:'el dado', imagen:'imagenes/el_dado.jpeg'},
+    {palabra:'el zapato', imagen:'imagenes A-Z/zapato.jpeg'},
+    {palabra:'el helado', imagen:'imagenes A-Z/helado.jpeg'},
+    {palabra:'la pelota', imagen:'imagenes A-Z/pelota.jpeg'},
+    {palabra:'el avión', imagen:'imagenes A-Z/Avion.png'},
+    {palabra:'la bota', imagen:'imagenes A-Z/Bota.png'},
+    {palabra:'el vaso', imagen:'imagenes A-Z/vaso.jpeg'},
+    {palabra:'el pez', imagen:'imagenes/el_pez.jpeg'},
+    {palabra:'el oso', imagen:'imagenes A-Z/oso.jpeg'},
+    {palabra:'la fresa', imagen:'imagenes A-Z/fresa.jpeg'},
+    {palabra:'el lápiz', imagen:'imagenes A-Z/lapiz.jpeg'},
+    {palabra:'el árbol', imagen:'imagenes A-Z/Arbol.png'},
+    {palabra:'la mariposa', imagen:'imagenes/la_mariposa.jpeg'},
+    {palabra:'el elefante', imagen:'imagenes A-Z/Elefante.png'},
+    {palabra:'el anillo', imagen:'imagenes/el_anillo.jpeg'},
+    {palabra:'piña', imagen:'imagenes A-Z/piña.jpeg'}
+];
+
+const generalizacionEscenasData = [
+    {
+        imagen:'imagenes generalización/bus.png',
+        correctas:['bus','ventanas','llantas','puerta','luces'],
+        distractoras:['manzana','cama','gato','sombrilla','libros']
+    },
+    {
+        imagen:'imagenes generalización/carro.png',
+        correctas:['carro','llantas','ventanas','faros','parabrisas'],
+        distractoras:['conejo','playa','mochila','flor','desayuno']
+    },
+    {
+        imagen:'imagenes generalización/casa.png',
+        correctas:['casa','techo','puerta','ventanas','paredes'],
+        distractoras:['bus','vaso','pelota','gato','libros']
+    },
+    {
+        imagen:'imagenes generalización/conejo.png',
+        correctas:['conejo','orejas','ojos','nariz','flores'],
+        distractoras:['carro','mochila','playa','librero','vaso']
+    },
+    {
+        imagen:'imagenes generalización/desayuno.png',
+        correctas:['plato','taza','comida','vaso','mesa'],
+        distractoras:['bus','perro','sombrilla','mochila','pelota']
+    },
+    {
+        imagen:'imagenes generalización/Gatito.png',
+        correctas:['gato','orejas','cola','bigotes','nariz'],
+        distractoras:['bus','manzana','libros','carro','sombrilla']
+    },
+    {
+        imagen:'imagenes generalización/juego.png',
+        correctas:['escalera','arboles','juego','resbaladero','techo'],
+        distractoras:['librero','desayuno','carro','vaso','manzana']
+    },
+    {
+        imagen:'imagenes generalización/librero.png',
+        correctas:['librero','libros','estantes','oso','mueble'],
+        distractoras:['playa','conejo','carro','pelota','vaso']
+    },
+    {
+        imagen:'imagenes generalización/libros.png',
+        correctas:['libros','páginas','portadas','colores','lápiz'],
+        distractoras:['perro','sombrilla','bus','manzana','carro']
+    },
+    {
+        imagen:'imagenes generalización/manzana.png',
+        correctas:['manzana','roja','hoja','tallo','fruta'],
+        distractoras:['niño','bus','librero','vaso','playa']
+    },
+    {
+        imagen:'imagenes generalización/mochila.png',
+        correctas:['mochila','cierre','bolsillo','tirantes','bolsa'],
+        distractoras:['conejo','playa','carro','desayuno','pelota']
+    },
+    {
+        imagen:'imagenes generalización/niña.png',
+        correctas:['niña','sombrero','ojos','sonrisa','helado'],
+        distractoras:['bus','conejo','libros','carro','manzana']
+    },
+    {
+        imagen:'imagenes generalización/niñaFlor.png',
+        correctas:['niña','flor','pincel','dibujo','temperas'],
+        distractoras:['bus','carro','vaso','librero','conejo']
+    },
+    {
+        imagen:'imagenes generalización/niñaSombrilla.png',
+        correctas:['niña','sombrilla','capa','lluvia','charco'],
+        distractoras:['desayuno','librero','manzana','bus','gato']
+    },
+    {
+        imagen:'imagenes generalización/niño.png',
+        correctas:['niño','camisa','libro','leer','silla'],
+        distractoras:['playa','conejo','carro','caminar','manzana']
+    },
+    {
+        imagen:'imagenes generalización/niñoVaso.png',
+        correctas:['niño','vaso','mano','bebida','playera'],
+        distractoras:['bus','librero','pelota','conejo','playa']
+    },
+    {
+        imagen:'imagenes generalización/osito.png',
+        correctas:['osito','peluche','orejas','moño','suave'],
+        distractoras:['carro','desayuno','libros','playa','vaso']
+    },
+    {
+        imagen:'imagenes generalización/pelota.png',
+        correctas:['pelota','redonda','cesped','rayas','juguete'],
+        distractoras:['librero','manzana','vaso','casa','conejo']
+    },
+    {
+        imagen:'imagenes generalización/perro.png',
+        correctas:['perro','orejas','pelota','correr','patas'],
+        distractoras:['bus','manzana','libros','sombrilla','vaso']
+    },
+    {
+        imagen:'imagenes generalización/playa.png',
+        correctas:['playa','arena','mar','palmera','montañas'],
+        distractoras:['librero','mochila','bus','conejo','desayuno']
+    }
+];
+
+const comprensionLecturaData = [
+    {
+        imagen:'imagenes generalización/carro.png',
+        oraciones:['El carro es rojo.','El carro tiene ruedas.','El carro tiene ventanas.','El carro sirve para viajar.','El carro está en la calle.']
+    },
+    {
+        imagen:'imagenes generalización/bus.png',
+        oraciones:['El bus es amarillo.','El bus tiene muchas ventanas.','El bus lleva personas.','El bus tiene ruedas grandes.','El bus es un transporte.']
+    },
+    {
+        imagen:'imagenes generalización/casa.png',
+        oraciones:['La casa tiene techo.','La casa tiene puerta.','La casa tiene ventanas.','La casa está junto al jardín.','La casa es un lugar para vivir.']
+    },
+    {
+        imagen:'imagenes generalización/conejo.png',
+        oraciones:['El conejo tiene orejas largas.','El conejo es un animal.','El conejo está cerca de una zanahoria.','El conejo es pequeño.','El conejo tiene patas.']
+    },
+    {
+        imagen:'imagenes generalización/desayuno.png',
+        oraciones:['El desayuno está en la mesa.','Hay comida en el plato.','Hay una bebida.','El desayuno se come por la mañana.','La comida está servida.']
+    },
+    {
+        imagen:'imagenes generalización/Gatito.png',
+        oraciones:['El gato tiene bigotes.','El gato tiene orejas.','El gato es una mascota.','El gato tiene ojos grandes.','El gato es pequeño.']
+    },
+    {
+        imagen:'imagenes generalización/librero.png',
+        oraciones:['El librero tiene libros.','Los libros están ordenados.','El librero tiene estantes.','El librero es un mueble.','El librero sirve para guardar libros.']
+    },
+    {
+        imagen:'imagenes generalización/niñaSombrilla.png',
+        oraciones:['La niña tiene una sombrilla.','La niña está afuera.','La sombrilla protege de la lluvia.','La niña usa botas.','La niña está caminando.']
+    },
+    {
+        imagen:'imagenes generalización/niñoVaso.png',
+        oraciones:['El niño tiene un vaso.','El niño toma una bebida.','El vaso está en la mano.','El niño está sentado.','El niño mira hacia adelante.']
+    },
+    {
+        imagen:'imagenes generalización/playa.png',
+        oraciones:['La playa tiene arena.','En la playa hay mar.','Hay una sombrilla en la playa.','La playa es un lugar para descansar.','La playa está al aire libre.']
+    }
+];
+
+const oracionesData = [
+    [
+        'En la mañana, la familia prepara el desayuno antes de salir de casa.',
+        'El niño guarda sus útiles en la mochila para ir a la escuela.',
+        'La maestra lee un cuento y todos escuchan con mucha atención.',
+        'Después de jugar, los niños ordenan los juguetes en su lugar.',
+        'Cuando termina la lluvia, el sol ilumina el jardín de la casa.'
+    ],
+    [
+        'El perro corre por el patio mientras busca su pelota favorita.',
+        'La niña riega las flores para que crezcan fuertes y bonitas.',
+        'El gato duerme cerca de la ventana porque allí entra aire fresco.',
+        'En la cocina, la abuela prepara una sopa caliente para la cena.',
+        'El abuelo cuenta una historia mientras todos se sientan alrededor.'
+    ],
+    [
+        'El bus se detiene frente a la escuela para recoger a los estudiantes.',
+        'La bicicleta roja está junto al árbol grande del parque.',
+        'El carro avanza despacio cuando pasa cerca de una zona escolar.',
+        'En la calle, las personas esperan con paciencia el cambio del semáforo.',
+        'La familia viaja a la playa durante una tarde soleada de verano.'
+    ],
+    [
+        'Los libros del estante tienen cuentos, dibujos y palabras nuevas.',
+        'La lectura ayuda a imaginar lugares, personajes y aventuras diferentes.',
+        'Cada estudiante elige un libro y lee en silencio durante unos minutos.',
+        'Al terminar la historia, todos comentan la parte que más les gustó.',
+        'La biblioteca es un lugar tranquilo para aprender y descubrir ideas.'
+    ],
+    [
+        'El conejo blanco salta cerca de las zanahorias del huerto.',
+        'La mariposa vuela lentamente sobre las flores amarillas del jardín.',
+        'Los pájaros cantan en los árboles cuando comienza el día.',
+        'El oso de peluche acompaña al niño durante la hora de dormir.',
+        'Las mascotas necesitan comida, agua y cariño todos los días.'
+    ],
+    [
+        'En el recreo, los niños comparten la pelota y juegan juntos.',
+        'Antes de comer, todos lavan sus manos con agua y jabón.',
+        'La niña usa una sombrilla para caminar bajo la lluvia.',
+        'El niño toma agua después de correr por el patio.',
+        'Al final del día, la clase guarda los materiales en orden.'
+    ],
+    [
+        'La manzana roja está sobre la mesa junto a otros alimentos.',
+        'Comer frutas ayuda al cuerpo a tener energía durante el día.',
+        'El desayuno completo puede tener pan, fruta y una bebida.',
+        'La familia comparte la comida mientras conversa con tranquilidad.',
+        'Después de comer, los platos se lavan y se colocan en su lugar.'
+    ],
+    [
+        'En la playa, la arena se siente tibia durante la tarde.',
+        'Las olas llegan suavemente hasta la orilla del mar.',
+        'La sombrilla protege del sol a quienes descansan en la arena.',
+        'Algunas personas construyen castillos mientras otras caminan cerca del agua.',
+        'Cuando baja el sol, el cielo cambia de color sobre el mar.'
+    ]
+];function obtenerGrupoLetras(numPregunta) {
+    if (numPregunta <= 2) return letrasData.slice(0, 4);
+    if (numPregunta <= 4) return letrasData.slice(0, 8);
+    return letrasData.slice(0, 13);
+}
+
+function elegirLetraSinRepetir(grupo) {
+    let disponibles = grupo.filter(l => !letrasUsadas.includes(l.letra));
+    if (disponibles.length === 0) {
+        letrasUsadas = [];
+        disponibles = grupo.slice();
+    }
+    const elegida = disponibles[Math.floor(Math.random() * disponibles.length)];
+    letrasUsadas.push(elegida.letra);
+    return elegida;
+}
+
+function abrirLetras() {
+    seccionActual = "letras";
+    subSeccionLetras = "menu";
+    nivel.style.display = "none";
+    actividad.style.display = "block";
+    contenido.innerHTML = `
+        <h1>🔤 Letras</h1>
+        ${htmlCaminito([
+            {nombre:'Asociación',    fn:'lt1()'},
+            {nombre:'Selección',     fn:'lt2()'},
+            {nombre:'Clasificación', fn:'lt3()'},
+            {nombre:'Denominación',  fn:'lt4()'},
+            {nombre:'Generalización',fn:'lt5()'},
+            {nombre:'Comprensión lectora',fn:'lt6()'},
+            {nombre:'Oraciones',fn:'lt7()'}
+        ])}
+    `;
+}
+
+function iniciarLetras() {
+    preguntasLetra = 0;
+    puntosLetra = 0;
+    letrasUsadas = [];
+}
+
+function mostrarScoreLetras() {
+    return `<div class="score">&#11088; ${puntosLetra} / 5</div>`;
+}
+
+
+function botonRepetirHTML(fn) {
+    return `
+        <div class="modulo-banda" style="background:#43A047;margin-top:20px;" onclick="${fn}">
+            <span class="banda-emoji">🔁</span>
+            <span class="banda-nombre">Repetir</span>
+            <span class="banda-deco">↻</span>
+        </div>
+    `;
+}
+
+function repetirLetrasActual() {
+    if (faseLetraActual === 2) lt2();
+    else if (faseLetraActual === 3) lt3();
+    else if (faseLetraActual === 4) lt4();
+    else if (faseLetraActual === 5) lt5();
+    else iniciarLetras();
+}
+
+function repetirPalabrasAZ() {
+    const grupos = obtenerGruposAZ();
+    grupoActualAZ = grupos[0];
+    palabraActualAZ = 0;
+    mostrarPalabraGrupoAZ();
+}
+function lt1() {
+    subSeccionLetras = "asociacion";
+    faseLetraActual = 1;
+    contenido.innerHTML = `
+        <h1>Asociación</h1>
+        <div class="grid">
+            <button class="big-btn" style="font-size:0; width:380px; height:380px; padding:0; display:flex; align-items:center; justify-content:center; overflow:hidden; background:transparent; box-shadow:none;" onclick="iniciarAsociacion()">
+                <img src="imagenes/ImagenLetras.jpg" alt="Memoria" style="width:100%; height:100%; object-fit:contain; border-radius:30px; background:transparent; display:block; padding:0; box-sizing:border-box;">
+            </button>
+            <button class="big-btn" style="font-size:0; width:380px; height:380px; padding:0; display:flex; align-items:center; justify-content:center; overflow:hidden; background:transparent; box-shadow:none;" onclick="iniciarMemoriaPalabras()">
+                <img src="imagenes/MemoriadePalabras.jpg" alt="Palabras iguales" style="width:100%; height:100%; object-fit:contain; border-radius:30px; background:transparent; display:block; padding:0; box-sizing:border-box;">
+            </button>
+        </div>
+    `;
+}
+function lt2() { subSeccionLetras = "juego"; faseLetraActual = 2; iniciarLetras(); siguienteLetra(); }
+function lt3() { subSeccionLetras = "juego"; faseLetraActual = 3; iniciarLetras(); siguienteLetra(); }
+function lt4() { subSeccionLetras = "juego"; faseLetraActual = 4; iniciarLetras(); siguienteLetra(); }
+function lt5() {
+    subSeccionLetras = "juego";
+    faseLetraActual = 5;
+    iniciarLetras();
+    generalizacionEscenasActuales = mezclar(generalizacionEscenasData.slice()).slice(0, 5).map(escena => ({
+        ...escena,
+        opciones: mezclar(escena.correctas.concat(escena.distractoras))
+    }));
+    generalizacionSeleccionadas = [];
+    siguienteLetra();
+}
+
+function lt6() {
+    subSeccionLetras = "juego";
+    faseLetraActual = 6;
+    comprensionLecturaActuales = mezclar(comprensionLecturaData.slice()).slice(0, 5);
+    comprensionLecturaIndice = 0;
+    mostrarComprensionLectura();
+}
+
+function mostrarComprensionLectura() {
+    const item = comprensionLecturaActuales[comprensionLecturaIndice];
+    if (!item) {
+        contenido.innerHTML = `
+            <h1>&#127881; ¡Lectura terminada!</h1>
+            <h2>Muy buen trabajo</h2>
+            ${botonRepetirHTML('lt6()')}
+        `;
+        return;
+    }
+
+    const esUltima = comprensionLecturaIndice >= comprensionLecturaActuales.length - 1;
+    contenido.innerHTML = `
+        <div class="score">&#128214; ${comprensionLecturaIndice + 1} / ${comprensionLecturaActuales.length}</div>
+        <h1>Comprensión lectora</h1>
+        <img src="${item.imagen}" alt="Imagen para comprensión lectora"
+            style="max-width:min(520px,86vw); max-height:300px; width:auto; height:auto; object-fit:contain; border-radius:22px; box-shadow:0 8px 24px rgba(0,0,0,0.22); margin:0 auto 14px; display:block;">
+        <div style="max-width:760px; margin:0 auto; display:grid; gap:10px; padding:0 16px;">
+            ${item.oraciones.map(oracion => `
+                <div style="background:white; color:#1b5e20; font-size:clamp(18px,3vw,26px); font-weight:bold; border-radius:18px; padding:12px 18px; box-shadow:0 5px 16px rgba(0,0,0,0.14); text-align:left;">
+                    ${oracion}
+                </div>
+            `).join('')}
+        </div>
+        <button class="back" style="background:#FF9100; margin-top:18px;" onclick="siguienteComprensionLectura()">
+            ${esUltima ? 'Finalizar' : 'Siguiente'}
+        </button>
+    `;
+}
+
+function siguienteComprensionLectura() {
+    comprensionLecturaIndice++;
+    mostrarComprensionLectura();
+}
+function lt7() {
+    subSeccionLetras = "juego";
+    faseLetraActual = 7;
+    oracionesActuales = mezclar(oracionesData.flat()).slice(0, 15);
+    oracionesIndice = 0;
+    mostrarOraciones();
+}
+
+function mostrarOraciones() {
+    const oracion = oracionesActuales[oracionesIndice];
+    if (!oracion) {
+        contenido.innerHTML = `
+            <h1>&#127881; ¡Oraciones terminadas!</h1>
+            <h2>Muy buen trabajo</h2>
+            ${botonRepetirHTML('lt7()')}
+        `;
+        return;
+    }
+
+    const esUltima = oracionesIndice >= oracionesActuales.length - 1;
+    contenido.innerHTML = `
+        <div class="score">&#11088; ${oracionesIndice + 1} / ${oracionesActuales.length}</div>
+        <h1>Oraciones</h1>
+        <div style="max-width:760px; min-height:190px; margin:0 auto; display:flex; align-items:center; justify-content:center; padding:0 16px;">
+            <div style="background:white; color:#1b5e20; font-size:clamp(24px,4vw,38px); font-weight:bold; border-radius:22px; padding:28px 34px; box-shadow:0 8px 24px rgba(0,0,0,0.18); text-align:center; line-height:1.35;">
+                ${oracion}
+            </div>
+        </div>
+        <button class="back" style="background:#FF9100; margin-top:18px;" onclick="siguienteOraciones()">
+            ${esUltima ? 'Finalizar' : 'Siguiente'}
+        </button>
+    `;
+}
+
+function siguienteOraciones() {
+    oracionesIndice++;
+    mostrarOraciones();
+}
+function iniciarAsociacion() {
+    subSeccionLetras = "juego";
+    faseLetraActual = 1;
+    preguntasLetra = 0;
+    puntosLetra = 0;
+    asociacionSeleccion = null;
+    asociacionCompletadas = [];
+    asociacionParesActuales = mezclar(asociacionPalabrasData.slice()).slice(0, 5);
+    asociacionImagenes = mezclar(asociacionParesActuales.slice());
+    asociacionPalabras = mezclar(asociacionParesActuales.slice());
+    mostrarAsociacion();
+}
+
+function claseAsociacion(tipo, palabra) {
+    if (asociacionCompletadas.includes(palabra)) return ' completada';
+    if (asociacionSeleccion && asociacionSeleccion.tipo === tipo && asociacionSeleccion.palabra === palabra) return ' seleccionada';
+    return '';
+}
+
+function mostrarAsociacion() {
+    const imagenesHtml = asociacionImagenes.map(item => `
+        <button class="asociacion-card asociacion-imagen-card${claseAsociacion('imagen', item.palabra)}"
+            ${asociacionCompletadas.includes(item.palabra) ? 'disabled' : ''}
+            onclick="seleccionarAsociacion('imagen','${item.palabra.replace(/'/g, "\\'")}')">
+            <img src="${item.imagen}" alt="${item.palabra}">
+        </button>
+    `).join('');
+
+    const palabrasHtml = asociacionPalabras.map(item => `
+        <button class="asociacion-card${claseAsociacion('palabra', item.palabra)}"
+            ${asociacionCompletadas.includes(item.palabra) ? 'disabled' : ''}
+            onclick="seleccionarAsociacion('palabra','${item.palabra.replace(/'/g, "\\'")}')">
+            ${item.palabra}
+        </button>
+    `).join('');
+
+    contenido.innerHTML = `
+        ${mostrarScoreLetras()}
+        <h1>Relaciona cada imagen con su palabra</h1>
+        <div class="asociacion-tablero">
+            <div class="asociacion-columna">${imagenesHtml}</div>
+            <div class="asociacion-columna">${palabrasHtml}</div>
+        </div>
+    `;
+}
+
+function seleccionarAsociacion(tipo, palabra) {
+    if (asociacionCompletadas.includes(palabra)) return;
+
+    if (!asociacionSeleccion || asociacionSeleccion.tipo === tipo) {
+        asociacionSeleccion = { tipo, palabra };
+        mostrarAsociacion();
+        return;
+    }
+
+    if (asociacionSeleccion.palabra === palabra) {
+        asociacionCompletadas.push(palabra);
+        puntosLetra++;
+        asociacionSeleccion = null;
+        mostrarFeedback(true);
+
+        if (puntosLetra >= 5) {
+            mostrarAsociacion();
+            setTimeout(() => {
+                contenido.innerHTML = `
+                    <h1>&#127881; ¡Juego terminado!</h1>
+                    <h2>Puntos: ${puntosLetra} / 5</h2>
+                    ${botonRepetirHTML('iniciarAsociacion()')}
+                `;
+            }, 900);
+        } else {
+            mostrarAsociacion();
+        }
+    } else {
+        asociacionSeleccion = null;
+        mostrarFeedback(false);
+        mostrarAsociacion();
+    }
+}
+
+function iniciarMemoriaPalabras() {
+    subSeccionLetras = "juego";
+    faseLetraActual = 1;
+    puntosMemoriaPalabras = 0;
+    memoriaPalabrasSeleccion = null;
+    memoriaPalabrasCompletadas = [];
+
+    const palabras = mezclar(asociacionPalabrasData.map(item => item.palabra)).slice(0, 6);
+    memoriaPalabrasCards = mezclar(palabras.flatMap((palabra, idx) => [
+        { id: `${idx}-a`, palabra },
+        { id: `${idx}-b`, palabra }
+    ]));
+
+    mostrarMemoriaPalabras();
+}
+
+function claseMemoriaPalabra(card) {
+    if (memoriaPalabrasCompletadas.includes(card.id)) return ' completada';
+    if (memoriaPalabrasSeleccion && memoriaPalabrasSeleccion.id === card.id) return ' seleccionada';
+    return '';
+}
+
+function mostrarMemoriaPalabras() {
+    contenido.innerHTML = `
+        <div class="score">&#11088; ${puntosMemoriaPalabras} / 6</div>
+        <h1>Encuentra las palabras iguales</h1>
+        <div class="grid" style="max-width:980px; margin:0 auto;">
+            ${memoriaPalabrasCards.map(card => `
+                <button class="asociacion-card${claseMemoriaPalabra(card)}"
+                    style="min-height:86px;"
+                    ${memoriaPalabrasCompletadas.includes(card.id) ? 'disabled' : ''}
+                    onclick="seleccionarMemoriaPalabra('${card.id}','${card.palabra.replace(/'/g, "\\'")}')">
+                    ${card.palabra}
+                </button>
+            `).join('')}
+        </div>
+    `;
+}
+
+function seleccionarMemoriaPalabra(id, palabra) {
+    if (memoriaPalabrasCompletadas.includes(id)) return;
+
+    if (!memoriaPalabrasSeleccion) {
+        memoriaPalabrasSeleccion = { id, palabra };
+        mostrarMemoriaPalabras();
+        return;
+    }
+
+    if (memoriaPalabrasSeleccion.id === id) {
+        memoriaPalabrasSeleccion = null;
+        mostrarMemoriaPalabras();
+        return;
+    }
+
+    if (memoriaPalabrasSeleccion.palabra === palabra) {
+        memoriaPalabrasCompletadas.push(memoriaPalabrasSeleccion.id, id);
+        puntosMemoriaPalabras++;
+        memoriaPalabrasSeleccion = null;
+        mostrarFeedback(true);
+
+        if (puntosMemoriaPalabras >= 6) {
+            mostrarMemoriaPalabras();
+            setTimeout(() => {
+                contenido.innerHTML = `
+                    <h1>&#127881; ¡Juego terminado!</h1>
+                    <h2>Puntos: ${puntosMemoriaPalabras} / 6</h2>
+                    ${botonRepetirHTML('iniciarMemoriaPalabras()')}
+                `;
+            }, 900);
+        } else {
+            mostrarMemoriaPalabras();
+        }
+    } else {
+        memoriaPalabrasSeleccion = null;
+        mostrarFeedback(false);
+        mostrarMemoriaPalabras();
+    }
+}
+
+function siguienteLetra() {
+    if (preguntasLetra >= 5) {
+        contenido.innerHTML = `
+            <h1>&#127881; ¡Juego terminado!</h1>
+            <h2>Puntos: ${puntosLetra} / 5</h2>
+            ${botonRepetirHTML('repetirLetrasActual()')}
+        `;
+        return;
+    }
+    preguntasLetra++;
+    let grupo = faseLetraActual === 4 ? letrasData : obtenerGrupoLetras(preguntasLetra);
+    letraActual = elegirLetraSinRepetir(grupo);
+
+    /* 1️⃣ ASOCIACIÓN */
+    if (faseLetraActual === 1) {
+        let opciones = grupo.filter(l => l.letra !== letraActual.letra)
+                            .sort(() => Math.random() - 0.5).slice(0, 3);
+        opciones.push(letraActual);
+        opciones = opciones.sort(() => Math.random() - 0.5);
+        contenido.innerHTML = `
+            ${mostrarScoreLetras()}
+            <h1>¿Con qué letra empieza?</h1>
+            <img src="${letraActual.imagen}" alt="${letraActual.palabra}"
+                style="width:200px; height:200px; object-fit:contain; border-radius:20px;
+                    background:white; box-shadow:0 6px 18px rgba(0,0,0,0.2); margin:20px auto; display:block;">
+            <h2 style="font-size:36px; margin:10px 0;">${letraActual.palabra}</h2>
+            <div class="grid">
+            ${opciones.map(l =>
+                `<button class="big-btn" style="background:white; color:#e00000; font-size:64px; font-weight:bold;"
+                onclick="verificarLetra('${l.letra}','${letraActual.letra}')">
+                ${l.letra}
+                </button>`
+            ).join('')}
+            </div>
+        `;
+    }
+
+    /* 2️⃣ SELECCIÓN */
+    if (faseLetraActual === 2) {
+        reproducirSonidoLetra(letraActual.letra, letraActual.nombre);
+        let opciones = grupo.filter(l => l.letra !== letraActual.letra)
+                            .sort(() => Math.random() - 0.5).slice(0, 3);
+        opciones.push(letraActual);
+        opciones = opciones.sort(() => Math.random() - 0.5);
+        contenido.innerHTML = `
+            ${mostrarScoreLetras()}
+            <h1>Selecciona la letra:</h1>
+            <div style="font-size:52px; color:#e00000; font-weight:bold; margin:10px 0;">
+                ${letraActual.nombre}
+                <button onclick="reproducirSonidoLetra('${letraActual.letra}','${letraActual.nombre}')"
+                    style="border:none; background:none; cursor:pointer; font-size:36px; vertical-align:middle; margin-left:8px;">🔊</button>
+            </div>
+            <div class="grid">
+            ${opciones.map(l =>
+                `<button class="big-btn" style="background:white; color:#e00000; font-size:64px; font-weight:bold;"
+                onclick="verificarLetra('${l.letra}','${letraActual.letra}')">
+                ${l.letra}
+                </button>`
+            ).join('')}
+            </div>
+        `;
+    }
+
+    /* 3️⃣ CLASIFICACIÓN */
+    if (faseLetraActual === 3) {
+        clasificacionActual = clasificacionPalabrasData[Math.floor(Math.random() * clasificacionPalabrasData.length)];
+        const opciones = clasificacionActual.palabras.slice().sort(() => Math.random() - 0.5);
+        contenido.innerHTML = `
+            ${mostrarScoreLetras()}
+            <h1>¿Qué palabra no pertenece al grupo?</h1>
+            <div class="grid">
+            ${opciones.map(palabra =>
+                `<button class="big-btn" style="background:white; color:#e00000; font-size:30px; padding:12px; line-height:1.15;"
+                onclick="verificarClasificacion('${palabra.replace(/'/g, "\\'")}')">
+                ${palabra}
+                </button>`
+            ).join('')}
+            </div>
+        `;
+    }
+
+    /* 4️⃣ DENOMINACIÓN */
+    if (faseLetraActual === 4) {
+        setTimeout(() => reproducirSonidoLetra(letraActual.letra, letraActual.nombre), 300);
+        let opciones = grupo.filter(l => l.letra !== letraActual.letra)
+                            .sort(() => Math.random() - 0.5).slice(0, 3);
+        opciones.push(letraActual);
+        opciones = opciones.sort(() => Math.random() - 0.5);
+        contenido.innerHTML = `
+            ${mostrarScoreLetras()}
+            <h1>¿Cómo se llama esta letra?</h1>
+            <div onclick="reproducirSonidoLetra('${letraActual.letra}','${letraActual.nombre}')"
+                style="font-size:150px; font-weight:bold; color:#e00000; cursor:pointer; line-height:1; margin:10px 0;">
+                ${letraActual.letra.toLowerCase()}
+            </div>
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; font-size:16px; color:#555; margin-bottom:6px;">
+                <span>Toca la bocina para escuchar</span>
+                <button onclick="reproducirSonidoLetra('${letraActual.letra}','${letraActual.nombre}')"
+                    style="border:none; background:white; color:#e00000; cursor:pointer; width:38px; height:38px; font-size:19px; border-radius:50%; padding:0; box-shadow:0 4px 12px rgba(0,0,0,0.16); display:inline-flex; align-items:center; justify-content:center;"
+                    title="Escuchar letra">🔊</button>
+            </div>
+            <div class="grid">
+            ${opciones.map(l =>
+                `<button class="big-btn" style="background:white; color:#e00000; font-size:30px; font-weight:bold;"
+                onclick="verificarLetra('${l.letra}','${letraActual.letra}')">
+                ${l.nombre}
+                </button>`
+            ).join('')}
+            </div>
+        `;
+    }
+
+    /* 5️⃣ GENERALIZACIÓN */
+    if (faseLetraActual === 5) {
+        generalizacionActual = generalizacionEscenasActuales[preguntasLetra - 1];
+        generalizacionSeleccionadas = [];
+        mostrarGeneralizacion();
+        return;
+        let opciones = grupo.filter(l => l.letra !== letraActual.letra)
+                            .sort(() => Math.random() - 0.5).slice(0, 3);
+        opciones.push(letraActual);
+        opciones = opciones.sort(() => Math.random() - 0.5);
+        contenido.innerHTML = `
+            ${mostrarScoreLetras()}
+            <h1>Letra en mayúscula: <span style="color:#e00000; font-size:90px; vertical-align:middle;">${letraActual.letra}</span></h1>
+            <h2>¿Cuál es la misma letra en minúscula?</h2>
+            <div class="grid">
+            ${opciones.map(l =>
+                `<button class="big-btn" style="background:white; color:#e00000; font-size:80px; font-style:italic; font-weight:bold;"
+                onclick="verificarLetra('${l.letra}','${letraActual.letra}')">
+                ${l.letra.toLowerCase()}
+                </button>`
+            ).join('')}
+            </div>
+        `;
+    }
+}
+
+function claseGeneralizacion(palabra) {
+    return generalizacionSeleccionadas.includes(palabra) ? ' seleccionada' : '';
+}
+
+function mostrarGeneralizacion() {
+    if (!generalizacionActual) return;
+
+    const opciones = generalizacionActual.opciones;
+    contenido.innerHTML = `
+        ${mostrarScoreLetras()}
+        <h1>Marca 5 palabras que describen lo que ves</h1>
+        <img src="${generalizacionActual.imagen}" alt="Escena para describir"
+            style="max-width:min(560px,88vw); max-height:330px; width:auto; height:auto; object-fit:contain; border-radius:22px; box-shadow:0 8px 24px rgba(0,0,0,0.22); margin:0 auto 12px; display:block;">
+        <div class="score" style="font-size:20px;">Seleccionadas: ${generalizacionSeleccionadas.length} / 5</div>
+        <div class="grid" style="max-width:980px; margin:0 auto;">
+            ${opciones.map(palabra => `
+                <button class="asociacion-card${claseGeneralizacion(palabra)}"
+                    style="min-height:76px;"
+                    onclick="toggleGeneralizacion('${palabra.replace(/'/g, "\\'")}')">
+                    ${palabra}
+                </button>
+            `).join('')}
+        </div>
+        <button class="back" style="background:#FF9100; margin-top:12px;" onclick="verificarGeneralizacion()">Verificar</button>
+    `;
+}
+
+function toggleGeneralizacion(palabra) {
+    if (generalizacionSeleccionadas.includes(palabra)) {
+        generalizacionSeleccionadas = generalizacionSeleccionadas.filter(p => p !== palabra);
+    } else if (generalizacionSeleccionadas.length < 5) {
+        generalizacionSeleccionadas.push(palabra);
+    }
+    mostrarGeneralizacion();
+}
+
+function verificarGeneralizacion() {
+    const correctas = generalizacionActual.correctas;
+    const esCorrecto = generalizacionSeleccionadas.length === 5 &&
+        generalizacionSeleccionadas.every(palabra => correctas.includes(palabra));
+
+    if (esCorrecto) {
+        puntosLetra++;
+        mostrarFeedback(true);
+        siguienteLetra();
+    } else {
+        generalizacionSeleccionadas = [];
+        mostrarFeedback(false);
+        mostrarGeneralizacion();
+    }
+}
+
+function verificarLetra(respuesta, correcta) {
+    if (respuesta === correcta) {
+        puntosLetra++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteLetra();
+}
+
+function verificarClasificacion(palabraElegida) {
+    if (clasificacionActual && palabraElegida === clasificacionActual.intrusa) {
+        puntosLetra++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteLetra();
+}
+
+/* ─── Navegación ─── */
+function volverNivel() {
+    if (subSeccionLetras === "juego") {
+        abrirLetras();
+    } else {
+        window.location.href = 'index.html#modulos';
+    }
+}
+
+function volverInicio() {
+    window.location.href = 'index.html#modulos';
+}
+
+/* ─── Control de volumen ─── */
+function togglePanelVol(){
+    document.getElementById('panel-volumen').classList.toggle('abierto');
+}
+function cambiarVolumen(val){
+    const musica = document.getElementById('musica-fondo');
+    const v = parseInt(val) / 100;
+    musica.volume = v;
+    musica.muted = (v === 0);
+    document.getElementById('vol-pct').textContent = val + '%';
+    const btn = document.getElementById('btn-volumen');
+    if(v === 0)       btn.textContent = '🔇';
+    else if(v < 0.35) btn.textContent = '🔉';
+    else              btn.textContent = '🔊';
+}
+document.addEventListener('click', function(e){
+    const ctrl = document.getElementById('control-volumen');
+    if(ctrl && !ctrl.contains(e.target)){
+        document.getElementById('panel-volumen').classList.remove('abierto');
+    }
+});
+
+/* ─── Música de fondo ─── */
+(function(){
+    const musica = document.getElementById('musica-fondo');
+    musica.volume = 0.45;
+    musica.play().catch(() => {
+        ['click','touchstart','keydown'].forEach(ev =>
+            document.addEventListener(ev, () => musica.play().catch(()=>{}), { once: true })
+        );
+    });
+})();
+
+/* ─── Inicializar: mostrar menú directamente ─── */
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('fondo-modulos').style.display = 'block';
+    document.getElementById('logo-izq').style.display = 'block';
+    document.getElementById('logo-der').style.display = 'block';
+    const hash = window.location.hash;
+    if (hash === '#palabras') {
+        abrirPalabrasAZ();
+    } else {
+        abrirLetras();
+    }
+});
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

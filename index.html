@@ -1,0 +1,1817 @@
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprende Jugando</title>
+
+<!-- Fuente Senturigotin -->
+<link href="https://fonts.cdnfonts.com/css/senturigotin" rel="stylesheet">
+<!-- Fuente Andika (botones de respuesta) -->
+<link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
+<!-- Fuente Nunito (números coloreados) -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="imagenes/favicon.png">
+
+<style>
+/* Modal de feedback */
+.modal-feedback {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-feedback.mostrar {
+    display: flex;
+}
+
+.modal-content-feedback {
+    background: transparent;
+    padding: 0;
+    border-radius: 40px;
+    text-align: center;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-feedback h2 {
+    font-size: 48px;
+    margin: 12px 0 0 0;
+    color: white;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+}
+
+#feedbackImg {
+    width: 260px;
+    max-width: 70vw;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.4));
+    animation: popIn 0.35s ease;
+}
+
+/* ===== CAMINO DE ACTIVIDADES ===== */
+.camino-container {
+    position: relative;
+    width: 100%;
+    max-width: 860px;
+    height: calc(100vh - 290px);
+    min-height: 500px;
+    max-height: 700px;
+    margin: 4px auto 0;
+    overflow: visible;
+}
+.camino-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+.camino-parada {
+    position: absolute;
+    width: clamp(130px, 18vh, 210px);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.28);
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    z-index: 2;
+    transition: transform 0.16s, box-shadow 0.16s;
+}
+.camino-parada:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.38); }
+.camino-parada img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+    display: block;
+    background: #f0faf0;
+    border-radius: 16px;
+}
+.camino-label {
+    font-size: clamp(11px, 1.8vh, 15px);
+    font-weight: bold;
+    padding: 6px 4px 7px;
+    color: #1b5e20;
+    background: white;
+    line-height: 1.2;
+}
+.camino-num {
+    position: absolute;
+    top: 7px; left: 7px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+.cp1 { top: 2%;  left: 3%; }
+.cp2 { top: 18%; right: 3%; }
+.cp3 { top: 34%; left: 3%; }
+.cp4 { top: 50%; right: 3%; }
+.cp5 { top: 67%; left: 50%; transform: translateX(-50%); }
+.cp1:hover, .cp2:hover, .cp3:hover, .cp4:hover { transform: scale(1.08); }
+.cp5:hover { transform: translateX(-50%) scale(1.08); }
+.cp1:active, .cp2:active, .cp3:active, .cp4:active { transform: scale(0.93); }
+.cp5:active { transform: translateX(-50%) scale(0.93); }
+#nivel h1 { font-size: 30px; margin: 6px 0 2px; }
+
+body{
+    margin:0;
+    font-family:Comic Sans MS, Arial;
+    text-align:center;
+    background: linear-gradient(to bottom,#8fb3e0,#a8d0e6);
+    padding-top:100px; /* empuja todo el contenido */
+}
+
+h1{
+    font-size:55px;
+    margin:40px 0;
+}
+
+
+
+.score{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.grid{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:24px;
+    padding:16px;
+}
+
+.card{
+    background:#eaeaea;
+    width:240px;
+    height:220px;
+    border-radius:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    font-size:22px;
+}
+.card:hover{
+    transform:scale(1.1);
+    background:white;
+}
+.card img{
+    width:90%;
+    height:110px;
+    object-fit:contain;
+    margin-bottom:15px;
+}
+
+
+.big-btn{
+    width:220px;
+    height:220px;
+    border:none;
+    border-radius:30px;
+    margin:20px;
+    cursor:pointer;
+    font-size:38px;
+    font-weight:bold;
+    color:#e00000;
+    background:white;
+    font-family:'Andika',sans-serif;
+    text-transform: lowercase;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+.big-btn:hover{
+    transform:scale(1.08);
+    box-shadow:0 10px 24px rgba(0,0,0,0.22);
+}
+
+.color-box{
+    width:160px;
+    height:160px;
+    margin:16px auto;
+    border-radius:25px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.circle{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    display:inline-block;
+    margin:20px;
+    border:4px solid white;
+}
+
+.section{ display:none; }
+
+.back{
+    margin:30px;
+    padding:15px 30px;
+    font-size:20px;
+    border:none;
+    border-radius:20px;
+    background:#ff6b6b;
+    color:white;
+    cursor:pointer;
+}
+
+/* Logos en las esquinas */
+.logo-esquina{
+    position:fixed;
+    top:10px;
+    z-index:1000;
+}
+.logo-esquina img{
+    height:12vw; /* escala con pantalla */
+    max-height:180px;
+}
+.logo-esquina.izquierda{
+    left:10px;
+}
+.logo-esquina.derecha{
+    right:10px;
+}
+/* MEDIA QUERIES PARA TELEFONOS PEQUEÑOS */
+@media (max-width: 480px){
+    h1{ font-size:7vw; margin:3vw 0 1.5vw 0; }
+    .score{ font-size:5vw; margin-bottom:4px; }
+    .grid{ gap:12px; padding:10px; }
+    .card{ width:40vw; height:40vw; font-size:4vw; }
+    .card img{ width:90%; height:20vw; object-fit:contain; }
+    .big-btn{ width:34vw; height:34vw; font-size:4vw; margin:5px; }
+    .color-box{ width:22vw; height:22vw; margin:8px auto; }
+    .circle{ width:18vw; height:18vw; border-width:0.5vw; }
+    .back{ font-size:4vw; padding:2.5vw 5vw; margin:10px; }
+    .logo-esquina img{ height:15vw; }
+}
+
+/* MEDIA QUERIES PARA TABLETS */
+@media (min-width: 481px) and (max-width: 1024px){
+    h1{ font-size:6vw; margin:4vw 0 2vw 0; }
+    .score{ font-size:3.5vw; }
+    .grid{ gap:20px; padding:16px; }
+    .card{ width:30vw; height:30vw; font-size:3vw; }
+    .card img{ width:90%; height:16vw; object-fit:contain; }
+    .big-btn{ width:28vw; height:28vw; font-size:3vw; margin:8px; }
+    .color-box{ width:22vw; height:22vw; margin:12px auto; }
+    .circle{ width:14vw; height:14vw; border-width:0.5vw; }
+    .back{ font-size:3vw; padding:2vw 4vw; }
+    .logo-esquina img{ height:13vw; }
+}
+
+/* Botones selector de modo (Básicos / Avanzados) */
+.modo-btn{
+    padding:12px 30px;
+    font-size:22px;
+    border:3px solid #ccc;
+    border-radius:20px;
+    background:white;
+    color:#555;
+    cursor:pointer;
+    margin:5px 10px;
+    transition:0.2s;
+    font-family:Comic Sans MS, Arial;
+}
+.modo-btn.modo-activo{
+    background:#4ecdc4;
+    color:white;
+    border-color:#4ecdc4;
+    transform:scale(1.05);
+}
+@media (max-width:480px){
+    .modo-btn{ font-size:4vw; padding:2vw 5vw; }
+}
+
+
+/* === PANTALLA PRINCIPAL REDISEÑADA === */
+.modulo-banda {
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 14px 30px;
+    margin: 9px auto;
+    max-width: 540px;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.22);
+    transition: transform 0.18s, box-shadow 0.18s;
+    color: white;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+}
+.modulo-banda:hover {
+    transform: scale(1.05) translateX(6px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+}
+.banda-emoji { font-size: clamp(26px,5vw,36px); margin-right: 14px; flex-shrink:0; }
+.banda-nombre { font-size: clamp(19px,4vw,26px); flex: 1; text-align: left;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.25); }
+.banda-deco { font-size: clamp(16px,3vw,22px); opacity: 0.9; flex-shrink:0; }
+
+/* Mascot animals fixed on sides */
+.mascota-lado { display:none; pointer-events:none; position:fixed; z-index:1; }
+@media (min-width: 900px){
+    .mascota-lado { display:block; font-size:90px; bottom:60px; }
+    .mascota-izq  { left:10px;  animation: bounce-slow 3s ease-in-out infinite; }
+    .mascota-der  { right:10px; animation: sway-slow 2.5s ease-in-out infinite; }
+}
+@media (min-width: 1200px){
+    .mascota-lado { font-size:120px; }
+}
+
+/* Floating sparkles */
+.estrella-flot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    animation: sparkle-anim 2.5s ease-in-out infinite;
+}
+
+/* Bottom animal row */
+.animales-fila {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px auto 10px;
+    position: relative;
+    z-index: 2;
+}
+.animal-chico { font-size: clamp(28px,5vw,46px); display:inline-block;
+                animation: bounce-slow 2s ease-in-out infinite; }
+.animal-chico:nth-child(2){animation-delay:.25s}
+.animal-chico:nth-child(3){animation-delay:.5s}
+.animal-chico:nth-child(4){animation-delay:.75s}
+.animal-chico:nth-child(5){animation-delay:1s}
+.animal-chico:nth-child(6){animation-delay:1.25s}
+
+/* Rainbow title letters */
+.letra-arco { display:inline-block; animation: letra-baile 1.8s ease-in-out infinite; }
+.letra-arco:nth-child(2){animation-delay:.12s}
+.letra-arco:nth-child(3){animation-delay:.24s}
+.letra-arco:nth-child(4){animation-delay:.36s}
+.letra-arco:nth-child(5){animation-delay:.48s}
+.letra-arco:nth-child(6){animation-delay:.60s}
+.letra-arco:nth-child(7){animation-delay:.72s}
+.letra-arco:nth-child(8){animation-delay:.84s}
+.letra-arco:nth-child(9){animation-delay:.96s}
+.letra-arco:nth-child(10){animation-delay:1.08s}
+.letra-arco:nth-child(11){animation-delay:1.20s}
+.letra-arco:nth-child(12){animation-delay:1.32s}
+.letra-arco:nth-child(13){animation-delay:1.44s}
+.letra-arco:nth-child(14){animation-delay:1.56s}
+.letra-arco:nth-child(15){animation-delay:1.68s}
+
+/* Keyframes */
+@keyframes bounce-slow {
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+}
+@keyframes sway-slow {
+    0%,100%{transform:rotate(-8deg) translateY(0)}
+    50%{transform:rotate(8deg) translateY(-8px)}
+}
+@keyframes sparkle-anim {
+    0%,100%{opacity:.25;transform:scale(.7) rotate(0deg)}
+    50%{opacity:1;transform:scale(1.3) rotate(25deg)}
+}
+@keyframes letra-baile {
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-6px) rotate(-4deg)}
+    75%{transform:translateY(3px) rotate(4deg)}
+}
+@media (max-width:480px){
+    .modulo-banda{padding:11px 18px;border-radius:40px;margin:7px auto;}
+    .banda-nombre{font-size:clamp(15px,4.5vw,19px);}
+    .animales-fila{gap:5px;}
+}
+
+/* === PANTALLA MENÚ PRINCIPAL (fondo completo) === */
+#pantalla-inicio {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    /* fondo que coincide con el cielo de la imagen */
+    background-color: #9cd4f0;
+}
+/* TELÉFONO: imagen completa sin recorte */
+.img-fondo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+    z-index: 0;
+}
+/* Botón sobre la imagen */
+.btn-jugar {
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    /* teléfono: espacio blanco entre título y animales (~43% desde arriba) */
+    top: 43%;
+    font-size: clamp(22px, 5vw, 40px);
+    padding: clamp(12px,2.5vw,20px) clamp(45px,10vw,85px);
+    border: none;
+    border-radius: 60px;
+    background: linear-gradient(135deg, #FF5252 0%, #FF9100 50%, #FFD600 100%);
+    color: white;
+    cursor: pointer;
+    font-family: Comic Sans MS, Arial;
+    font-weight: bold;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    letter-spacing: 3px;
+    box-shadow: 0 8px 30px rgba(255,82,82,0.45);
+    transition: transform 0.18s;
+    animation: pulse-btn 2s ease-in-out infinite;
+}
+.btn-jugar:hover { transform: translateX(-50%) scale(1.13); }
+@keyframes pulse-btn {
+    0%,100%{ box-shadow: 0 8px 30px rgba(255,82,82,0.45), 0 0 0 0 rgba(255,144,0,0.35); }
+    50%{ box-shadow: 0 8px 30px rgba(255,82,82,0.45), 0 0 0 22px rgba(255,144,0,0); }
+}
+/* COMPUTADORA: imagen cubre pantalla, botón a la derecha y más abajo */
+@media (min-width: 768px) {
+    .img-fondo {
+        object-fit: cover;
+        object-position: center center;
+    }
+    .btn-jugar {
+        top: 58%;
+        bottom: auto;
+        left: 60%;
+        transform: translateX(-50%);
+    }
+}
+
+/* === CONTROL DE VOLUMEN === */
+#control-volumen {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+#btn-volumen {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 3px solid #FF9100;
+    background: rgba(255,255,255,0.95);
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+    transition: transform 0.15s, background 0.15s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn-volumen:hover { transform: scale(1.12); background: white; }
+#panel-volumen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.97);
+    border-radius: 22px;
+    padding: 12px 10px 8px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+    gap: 5px;
+    border: 2px solid #FF9100;
+}
+#panel-volumen.abierto { display: flex; }
+#slider-vol {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 6px;
+    height: 85px;
+    cursor: pointer;
+    accent-color: #FF9100;
+}
+.vol-label {
+    font-size: 11px;
+    color: #888;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+@media (max-width: 480px) {
+    #control-volumen { bottom: 12px; right: 10px; }
+    #btn-volumen { width: 46px; height: 46px; font-size: 22px; }
+    #slider-vol { height: 70px; }
+}
+
+/* === BOTÓN HOME GLOBAL === */
+#btn-home-global {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    z-index: 10000;
+    display: none;
+}
+#btn-home-global button {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 3px solid #FF5252;
+    background: rgba(255,255,255,0.95);
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+    transition: transform 0.15s, background 0.15s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn-home-global button:hover { transform: scale(1.12); background: white; }
+@media (max-width: 480px) {
+    #btn-home-global { bottom: 12px; left: 10px; }
+    #btn-home-global button { width: 46px; height: 46px; font-size: 22px; }
+}
+
+/* === FONDO DE MÓDULOS === */
+#fondo-modulos {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('imagenes/Fondo.png') no-repeat center center / cover;
+}
+@media (min-width: 768px) {
+    #fondo-modulos {
+        background-image: url('imagenes/Fondo2.png');
+    }
+}
+
+</style>
+</head>
+
+<body>
+<div id="fondo-modulos"></div>
+
+<!-- Música de fondo (loop automático) -->
+<audio id="musica-fondo" src="audios/Sonido Pagina.mp3" loop preload="auto"></audio>
+
+<!-- Modal de feedback -->
+<div id="modalFeedback" class="modal-feedback">
+    <div class="modal-content-feedback">
+        <img id="feedbackImg" src="" alt="">
+        <h2 id="feedbackText"></h2>
+    </div>
+</div>
+
+<!-- Logos de UMES y Ministerio en las esquinas (ocultos en pantalla principal) -->
+<div class="logo-esquina izquierda" id="logo-izq" style="display:none">
+    <img src="imagenes/logo_umes.png" alt="Logo UMES">
+</div>
+<div class="logo-esquina derecha" id="logo-der" style="display:none">
+    <img src="imagenes/logo_mineduc.png" alt="Logo Ministerio de Educación">
+</div>
+
+<div id="pantalla-inicio">
+    <picture>
+        <!-- Computadoras y tablets horizontales -->
+        <source media="(min-width: 768px)" srcset="imagenes/Principal2.png">
+        <!-- Teléfonos en vertical (portrait) -->
+        <img class="img-fondo" src="imagenes/Princial.png" alt="Aprende Jugando">
+    </picture>
+    <button class="btn-jugar" onclick="irAModulos()">Jugar</button>
+</div>
+
+<div id="inicio" style="display:none">
+
+
+    <!-- Rainbow title -->
+    <h1 style="margin:28px 0 22px;font-size:clamp(28px,7vw,55px);line-height:1.2;">
+        &nbsp;<span class="letra-arco" style="color:#FF5252">A</span><span class="letra-arco" style="color:#FF9100">p</span><span class="letra-arco" style="color:#FFD600">r</span><span class="letra-arco" style="color:#00AA44">e</span><span class="letra-arco" style="color:#2979FF">n</span><span class="letra-arco" style="color:#9C27B0">d</span><span class="letra-arco" style="color:#FF4081">e</span>&nbsp;<span class="letra-arco" style="color:#FF5252">c</span><span class="letra-arco" style="color:#FF9100">o</span><span class="letra-arco" style="color:#FFD600">n</span>&nbsp;<span class="letra-arco" style="color:#00AA44">A</span><span class="letra-arco" style="color:#2979FF">m</span><span class="letra-arco" style="color:#9C27B0">i</span><span class="letra-arco" style="color:#FF4081">g</span><span class="letra-arco" style="color:#FF5252">o</span><span class="letra-arco" style="color:#FF9100">s</span>&nbsp;
+    </h1>
+
+    <!-- Module bands -->
+    <div style="padding:0 16px;position:relative;z-index:2;">
+
+        <div class="modulo-banda" style="background:#FF5252;" onclick="abrirNivel()">
+            <span class="banda-emoji">🎨</span>
+            <span class="banda-nombre">Colores</span>
+            <span class="banda-deco">🔴🔵🟡</span>
+        </div>
+
+        <div class="modulo-banda" style="background:#FF9100;" onclick="abrirNumeros()">
+            <span class="banda-emoji">🔢</span>
+            <span class="banda-nombre">Números</span>
+            <span class="banda-deco">1️⃣2️⃣3️⃣</span>
+        </div>
+
+        <div class="modulo-banda" style="background:#F4C400;color:#333;text-shadow:none;" onclick="abrirFormas()">
+            <span class="banda-emoji">🔷</span>
+            <span class="banda-nombre" style="text-shadow:none;color:#333;">Formas</span>
+            <span class="banda-deco">⭐🔺⚫</span>
+        </div>
+
+        <div class="modulo-banda" style="background:#00AA44;" onclick="abrirAnimales()">
+            <span class="banda-emoji">🐾</span>
+            <span class="banda-nombre">Animales</span>
+            <span class="banda-deco">🐶🐱🦁</span>
+        </div>
+
+        <div class="modulo-banda" style="background:#2979FF;" onclick="window.location.href='letras-palabras.html#letras'">
+            <span class="banda-emoji">🔤</span>
+            <span class="banda-nombre">Letras</span>
+            <span class="banda-deco">A&nbsp;B&nbsp;C</span>
+        </div>
+
+        <div class="modulo-banda" style="background:#9C27B0;" onclick="window.location.href='letras-palabras.html#palabras'">
+            <span class="banda-emoji">📖</span>
+            <span class="banda-nombre">Palabras A-Z</span>
+            <span class="banda-deco">🔤✏️📝</span>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<div id="nivel" class="section"></div>
+
+<div id="actividad" class="section">
+    <div id="contenido"></div>
+    <div style="padding:0 16px;max-width:540px;margin:10px auto;">
+        <div class="modulo-banda" style="background:#FF9100;" onclick="volverNivel()">
+            <span class="banda-emoji">↩️</span>
+            <span class="banda-nombre">Volver</span>
+            <span class="banda-deco">←</span>
+        </div>
+    </div>
+</div>
+
+<script>
+
+// ===== CAMINO DE ACTIVIDADES =====
+// Path en viewBox "0 0 100 100" (porcentajes): serpentea izq→der→izq→der→centro
+const _caminoPath = 'M 50 0 C 50 6,10 7,10 13 C 10 21,90 23,90 29 C 90 37,10 39,10 45 C 10 53,90 55,90 61 C 90 69,50 73,50 78 L 50 100';
+const _caminoImgs = ['Asociación','Selección','Clasificación','Denominación','Generalización'];
+const _caminoNumColors = ['#e53935','#8e24aa','#1e88e5','#00897b','#f4511e'];
+const _caminoPos = ['cp1','cp2','cp3','cp4','cp5'];
+
+function htmlCaminito(paradas) {
+    const cards = paradas.map((p, i) => `
+        <div class="camino-parada ${_caminoPos[i]}" onclick="${p.fn}">
+            <img src="imagenes/${_caminoImgs[i]}.png" alt="${_caminoImgs[i]}">
+        </div>`).join('');
+    return `<div class="camino-container">
+        <svg class="camino-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="${_caminoPath}" stroke="rgba(0,70,0,0.20)" stroke-width="55" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#388e3c" stroke-width="46" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#66bb6a" stroke-width="36" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="#c8e6c9" stroke-width="22" fill="none" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+            <path d="${_caminoPath}" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="4 3" opacity="0.7" vector-effect="non-scaling-stroke"/>
+        </svg>
+        ${cards}
+    </div>`;
+}
+
+// Imágenes de personajes para el modal
+const imgCorrectas = [
+    'imagenes/ZorroFeliz.png',
+    'imagenes/ZorroCantando.png',
+    'imagenes/MonoSorprendido.png',
+    'imagenes/JirafaEnamorada.png',
+    'imagenes/MonoEnamorado.png',
+    'imagenes/JirafaSorprendida.png'
+];
+const imgIncorrectas = [
+    'imagenes/MonoEnojado.png',
+    'imagenes/JirafaTriste.png',
+    'imagenes/ZorroPensativo.png'
+];
+let idxCorrecto = 0, idxIncorrecto = 0;
+
+// Función para mostrar feedback con modal y audio
+function mostrarFeedback(esCorrecto) {
+    const modal = document.getElementById('modalFeedback');
+    const img = document.getElementById('feedbackImg');
+    const text = document.getElementById('feedbackText');
+
+    // Reproducir audio según corresponda
+    const audioPath = esCorrecto ? 'audios/correcto.mp3' : 'audios/incorecto.mp3';
+    const audio = new Audio(audioPath);
+    audio.volume = 1;
+    audio.play().catch(e => console.log('Audio no disponible:', e));
+
+    // Configurar imagen y texto
+    if (esCorrecto) {
+        img.src = imgCorrectas[idxCorrecto % imgCorrectas.length];
+        idxCorrecto++;
+        text.textContent = '¡Muy bien!';
+    } else {
+        img.src = imgIncorrectas[idxIncorrecto % imgIncorrectas.length];
+        idxIncorrecto++;
+        text.textContent = 'Intenta otra vez';
+    }
+
+    // Mostrar modal
+    modal.classList.add('mostrar');
+
+    // Ocultar después de 1.5 segundos
+    setTimeout(() => {
+        modal.classList.remove('mostrar');
+    }, 1500);
+}
+
+const coloresBasicosData = [
+    {nombre:"rojo",     valor:"#FF0000", objetos:["🍎","🌹","💃","❤️","🎈","🚗","💯​"]},
+    {nombre:"azul",     valor:"#0055FF", objetos:["🐳","💙","🌊","🌐","👖","👓","🧳"]},
+    {nombre:"amarillo", valor:"#FFD700", objetos:["☀️","🌻","🍋","⭐","🐤","📒","💛"]},
+    {nombre:"verde",    valor:"#00AA00", objetos:["🍃","🐛","🥦","🌳","🐢","🦎","🦕"]},
+    {nombre:"negro",    valor:"#111111", objetos:["🖤","🐧","🎱","🎩","🎥","🥷🏼","🧑🏻‍🎓​"]},
+    {nombre:"blanco",   valor:"#FFFFFF", objetos:["⛄","🕊️","🐑","☁️","🐇","💬​","🤍"]},
+];
+function getColores(){ return coloresBasicosData; }
+
+let colorCorrecto;
+
+/* CONTROL DE SECCIÓN ACTIVA */
+let seccionActual = "colores";
+
+/* ========================= */
+/* SISTEMA DE PUNTOS COLORES */
+/* ========================= */
+
+let preguntasColor = 0;
+let puntosColor = 0;
+let dificultadActual = null;
+
+/* NAVEGACIÓN */
+function abrirNivel(){
+    seccionActual = "colores";
+    inicio.style.display = "none";
+    nivel.innerHTML = `
+        <h1>🌈 Nivel Colores</h1>
+        ${htmlCaminito([
+            {nombre:'Asociación',    fn:'c1()'},
+            {nombre:'Selección',     fn:'c2()'},
+            {nombre:'Clasificación', fn:'c3()'},
+            {nombre:'Denominación',  fn:'c4()'},
+            {nombre:'Generalización',fn:'c5()'}
+        ])}
+        <div class="modulo-banda" style="background:#FF9100;margin-top:14px;" onclick="volverInicio()"><span class="banda-emoji">↩️</span><span class="banda-nombre">Volver a módulos</span><span class="banda-deco">←</span></div>
+    `;
+    nivel.style.display = "block";
+}
+function volverInicio(){
+    nivel.style.display="none";
+    actividad.style.display="none";
+    inicio.style.display="block";
+}
+function volverNivel(){
+     if(seccionActual==="colores"){
+        actividad.style.display="none";
+        nivel.style.display="block";
+    }
+
+    if(seccionActual==="numeros"){
+
+        if(subSeccionNumeros==="juego"){
+            abrirNumeros(); // 👈 vuelve al menú de números
+        }else{
+            actividad.style.display="none";
+            inicio.style.display="block"; // 👈 vuelve al inicio
+        }
+
+    }
+    if(seccionActual==="formas"){
+
+        if(subSeccionFormas==="juego"){
+            abrirFormas(); // 👈 vuelve al menú de formas
+        }else{
+            actividad.style.display="none";
+            inicio.style.display="block"; // 👈 vuelve al inicio
+        }
+
+    }
+    if(seccionActual==="animales"){
+
+        if(subSeccionAnimales==="juego"){
+            abrirAnimales(); // 👈 vuelve al menú de animales
+        }else{
+            actividad.style.display="none";
+            inicio.style.display="block"; // 👈 vuelve al inicio
+        }
+
+    }
+}
+
+
+/* INICIAR JUEGO */
+function iniciar(){
+    preguntasColor = 0;
+    puntosColor = 0;
+    nivel.style.display="none";
+    actividad.style.display="block";
+}
+
+function randomColor(){
+    const lista = getColores();
+    return lista[Math.floor(Math.random()*lista.length)];
+}
+function textoColor(valor){
+    const hex = valor.replace('#','');
+    const r=parseInt(hex.substr(0,2),16), g=parseInt(hex.substr(2,2),16), b=parseInt(hex.substr(4,2),16);
+    return (0.299*r+0.587*g+0.114*b)/255 > 0.55 ? '#333' : '#fff';
+}
+function bordeBlanco(nombre){
+    return ['blanco','amarillo','aqua','turquesa'].includes(nombre) ? 'border:3px solid #bbb;' : '';
+}
+
+/* Precargar voces al cargar la página — necesario en Chrome */
+if('speechSynthesis' in window){
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+}
+
+function hablar(texto){
+    if(!('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    setTimeout(() => {
+        const u = new SpeechSynthesisUtterance(texto);
+        u.lang = 'es-ES';
+        u.rate = 0.8;
+        u.pitch = 1.0;
+        u.volume = 1.0;
+        const voces = speechSynthesis.getVoices();
+        const vozES = voces.find(v => v.lang.startsWith('es')) || voces[0];
+        if(vozES) u.voice = vozES;
+        speechSynthesis.speak(u);
+    }, 80);
+}
+
+function mezclar(arr){
+    return arr.sort(()=>Math.random()-0.5);
+}
+
+function mostrarScore(){
+    return `<div class="score">⭐ ${puntosColor} / 5</div>`;
+}
+
+/* DIFICULTADES COLORES */
+function c1(){ dificultadActual=c1; iniciar(); siguientePregunta(); }
+function c2(){ dificultadActual=c2; iniciar(); siguientePregunta(); }
+function c3(){ dificultadActual=c3; iniciar(); siguientePregunta(); }
+function c4(){ dificultadActual=c4; iniciar(); siguientePregunta(); }
+function c5(){ dificultadActual=c5; iniciar(); siguientePregunta(); }
+
+function siguientePregunta(){
+    if(preguntasColor >= 5){
+        contenido.innerHTML=`
+        <h1>🎉 ¡Juego terminado!</h1>
+        <h2>Puntos: ${puntosColor} / 5</h2>
+        `;
+        return;
+    }
+    preguntasColor++;
+    colorCorrecto = randomColor();
+    const lista = getColores();
+
+    /* 1️⃣ ASOCIACIÓN — muestra el color, elige el objeto que le corresponde */
+    if(dificultadActual===c1){
+        hablar(colorCorrecto.nombre);
+        const objCorrecto = colorCorrecto.objetos[Math.floor(Math.random()*colorCorrecto.objetos.length)];
+        let otros = mezclar(lista.filter(c=>c.nombre!==colorCorrecto.nombre)).slice(0,2);
+        let opciones = otros.map(c=>({obj:c.objetos[Math.floor(Math.random()*c.objetos.length)], nom:c.nombre}));
+        opciones.push({obj:objCorrecto, nom:colorCorrecto.nombre});
+        opciones = mezclar(opciones);
+        contenido.innerHTML=`
+        ${mostrarScore()}
+        <h1>¿Cuál objeto es de color <span style="color:${colorCorrecto.nombre==='blanco'?'#888':colorCorrecto.valor};font-weight:bold;">${colorCorrecto.nombre.toLowerCase()}</span>?
+        <button onclick="hablar('${colorCorrecto.nombre}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:28px;vertical-align:middle;margin-left:8px;">🔊</button></h1>
+        <div class="color-box" style="background:${colorCorrecto.valor};${bordeBlanco(colorCorrecto.nombre)}"></div>
+        <div class="grid">
+        ${opciones.map(op=>`<button class="big-btn" style="background:white;color:#e00000;font-size:105px;" onclick="verificar('${op.nom}')">${op.obj}</button>`).join('')}
+        </div>`;
+    }
+
+    /* 2️⃣ SELECCIÓN — escucha el nombre, toca el color correcto */
+    if(dificultadActual===c2){
+        hablar(colorCorrecto.nombre);
+        let opciones = mezclar(lista.filter(c=>c.nombre!==colorCorrecto.nombre)).slice(0,2);
+        opciones.push(colorCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML=`
+        ${mostrarScore()}
+        <h1>Toca el color <span style="color:#e00000;font-weight:bold;">${colorCorrecto.nombre.toLowerCase()}</span>
+        <button onclick="hablar('${colorCorrecto.nombre}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:28px;vertical-align:middle;margin-left:8px;">🔊</button></h1>
+        <div class="grid">
+        ${opciones.map(c=>`<div class="big-btn" style="background:${c.valor};${bordeBlanco(c.nombre)}" onclick="verificar('${c.nombre}')"></div>`).join('')}
+        </div>`;
+    }
+
+    /* 3️⃣ CLASIFICACIÓN — ve el objeto, elige su color */
+    if(dificultadActual===c3){
+        const objeto = colorCorrecto.objetos[Math.floor(Math.random()*colorCorrecto.objetos.length)];
+        let opciones = mezclar(lista.filter(c=>c.nombre!==colorCorrecto.nombre)).slice(0,2);
+        opciones.push(colorCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML=`
+        ${mostrarScore()}
+        <h1>¿De qué color es este objeto?</h1>
+        <div style="font-size:160px;margin:10px 0;">${objeto}</div>
+        <div class="grid">
+        ${opciones.map(c=>`<button class="big-btn" style="background:${c.valor};color:${textoColor(c.valor)};font-size:36px;font-weight:bold;${bordeBlanco(c.nombre)}" onclick="hablar('${c.nombre}'); verificar('${c.nombre}')">${c.nombre}</button>`).join('')}
+        </div>`;
+    }
+
+    /* 4️⃣ DENOMINACIÓN — escucha el nombre del color, identifícalo */
+    if(dificultadActual===c4){
+        hablar(colorCorrecto.nombre);
+        let opciones = mezclar(lista.filter(c=>c.nombre!==colorCorrecto.nombre)).slice(0,2);
+        opciones.push(colorCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML=`
+        ${mostrarScore()}
+        <h1>🔊 ¿Qué color escuchas?</h1>
+        <div class="color-box" style="background:${colorCorrecto.valor};${bordeBlanco(colorCorrecto.nombre)};cursor:pointer;box-shadow:0 0 0 6px #ffd700;"
+             onclick="hablar('${colorCorrecto.nombre}')"></div>
+        <p style="font-size:20px;color:#555;margin:8px 0 16px 0;">👆 Toca el cuadro para escuchar otra vez</p>
+        <div class="grid">
+        ${opciones.map(c=>`<button class="big-btn" style="background:white;color:#e00000;font-size:40px;font-weight:bold;" onclick="verificar('${c.nombre}')">${c.nombre}</button>`).join('')}
+        </div>`;
+    }
+
+    /* 5️⃣ GENERALIZACIÓN — ve 3 objetos del mismo color, elige el color común */
+    if(dificultadActual===c5){
+        const objetos = mezclar([...colorCorrecto.objetos]).slice(0,3);
+        let opciones = mezclar(lista.filter(c=>c.nombre!==colorCorrecto.nombre)).slice(0,2);
+        opciones.push(colorCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML=`
+        ${mostrarScore()}
+        <h1>¿Qué color tienen en común?</h1>
+        <div style="font-size:120px;margin:15px 0;letter-spacing:10px;">${objetos.join(' ')}</div>
+        <div class="grid">
+        ${opciones.map(c=>`<button class="big-btn" style="background:${c.valor};color:${textoColor(c.valor)};font-size:36px;font-weight:bold;${bordeBlanco(c.nombre)}" onclick="hablar('${c.nombre}'); verificar('${c.nombre}')">${c.nombre}</button>`).join('')}
+        </div>`;
+    }
+}
+
+function verificar(r){
+    if(r===colorCorrecto.nombre){
+        puntosColor++;
+        mostrarFeedback(true);
+    }else{
+        mostrarFeedback(false);
+    }
+    siguientePregunta();
+}
+
+/* ========================= */
+/* 🔢 NÚMEROS */
+/* ========================= */
+
+function numAPalabra(n){
+    if(n===100) return 'cien';
+    const un=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve'];
+    const esp=['diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve'];
+    const v20=['','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+    const dec=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+    if(n<=9) return un[n];
+    if(n<=19) return esp[n-10];
+    if(n===20) return 'veinte';
+    if(n<=29) return v20[n-20];
+    const d=Math.floor(n/10), u=n%10;
+    return u===0 ? dec[d] : dec[d]+' y '+un[u];
+}
+
+/* Colores primarios por dígito 0-9 */
+const _dcol=['#1e88e5','#e53935','#f9a825','#43a047','#e53935','#1e88e5','#f9a825','#43a047','#9c27b0','#00897b'];
+
+function numDisplay(n, size='110px'){
+    return String(n).split('').map(d=>
+        `<span style="font-size:${size};font-weight:900;color:${_dcol[+d]};font-family:'Nunito',Arial,sans-serif;line-height:1;display:inline-block;">${d}</span>`
+    ).join('');
+}
+
+const numerosData = Array.from({length:100},(_,i)=>({
+    valor:i+1, palabra:numAPalabra(i+1)
+}));
+
+const emojisSetA = ["🍎","🌟","🎈","🌸","🍌","⚽","🦋","🍭","🐶","🐱"];
+const emojisSetB = ["🍊","⭐","🎀","🌺","🍇","🏀","🐝","🍬","🐣","🐸"];
+function generarObjetos(n, emoji){ return Array(n).fill(emoji).join(''); }
+/* Escala el tamaño de emoji según cantidad para que quepan en el botón */
+function _esz(n){ return n<=2?'68px':n<=4?'52px':n<=6?'42px':'34px'; }
+
+/* familiaNumero: 0=1-5, 1=1-10, 2=11-20, 3=21-30 ... 10=91-100 */
+let familiaNumero = 0;
+function getNumeros(){
+    if(familiaNumero === 0) return numerosData.slice(0,5);
+    if(familiaNumero === 1) return numerosData.slice(0,10);
+    const ini = (familiaNumero-1)*10;
+    return numerosData.slice(ini, ini+10);
+}
+
+let numeroCorrecto;
+let numerosOrden = [];
+let indiceNum = 0;
+let puntosNumero = 0;
+let totalPreguntas = 5;
+let dificultadNumeroActual = null;
+let subSeccionNumeros = "menu";
+
+function abrirNumeros(){
+    seccionActual = "numeros";
+    subSeccionNumeros = "menu";
+    inicio.style.display = "none";
+    actividad.style.display = "none";
+    const familias = [
+        {f:0,lbl:'1–5'},
+        {f:1,lbl:'1–10'},{f:2,lbl:'11–20'},{f:3,lbl:'21–30'},{f:4,lbl:'31–40'},{f:5,lbl:'41–50'},
+        {f:6,lbl:'51–60'},{f:7,lbl:'61–70'},{f:8,lbl:'71–80'},{f:9,lbl:'81–90'},{f:10,lbl:'91–100'}
+    ];
+    nivel.innerHTML = `
+        <h1>🔢 Familia de Números</h1>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:4px auto 8px auto;max-width:680px;">
+        ${familias.map(({f,lbl})=>`<button id="btnFam${f}" class="modo-btn${f===familiaNumero?' modo-activo':''}" style="padding:5px 12px;font-size:15px;" onclick="setFamiliaNumero(${f})">${lbl}</button>`).join('')}
+        </div>
+        ${htmlCaminito([
+            {nombre:'Asociación',    fn:'n1()'},
+            {nombre:'Selección',     fn:'n2()'},
+            {nombre:'Clasificación', fn:'n3()'},
+            {nombre:'Denominación',  fn:'n4()'},
+            {nombre:'Generalización',fn:'n5()'}
+        ])}
+        <div class="modulo-banda" style="background:#FF9100;margin-top:14px;" onclick="volverInicio()"><span class="banda-emoji">↩️</span><span class="banda-nombre">Volver a módulos</span><span class="banda-deco">←</span></div>
+    `;
+    nivel.style.display = "block";
+}
+
+function setFamiliaNumero(f){
+    familiaNumero = f;
+    document.querySelectorAll('[id^="btnFam"]').forEach(b=>b.classList.remove('modo-activo'));
+    const el = document.getElementById('btnFam'+f);
+    if(el) el.classList.add('modo-activo');
+}
+
+function iniciarNumero(){
+    const lista = getNumeros();
+    numerosOrden = mezclar([...lista]);
+    indiceNum = 0;
+    puntosNumero = 0;
+    totalPreguntas = lista.length;
+    nivel.style.display = "none";
+    actividad.style.display = "block";
+}
+
+function mostrarScoreNumero(){
+    return `<div class="score">⭐ ${puntosNumero} / ${totalPreguntas}</div>`;
+}
+
+function n1(){ subSeccionNumeros="juego"; dificultadNumeroActual=1; iniciarNumero(); siguienteNumero(); }
+function n2(){ subSeccionNumeros="juego"; dificultadNumeroActual=2; iniciarNumero(); siguienteNumero(); }
+function n3(){ subSeccionNumeros="juego"; dificultadNumeroActual=3; iniciarNumero(); siguienteNumero(); }
+function n4(){ subSeccionNumeros="juego"; dificultadNumeroActual=4; iniciarNumero(); siguienteNumero(); }
+function n5(){ subSeccionNumeros="juego"; dificultadNumeroActual=5; iniciarNumero(); siguienteNumero(); }
+
+function siguienteNumero(){
+    if(indiceNum >= numerosOrden.length){
+        contenido.innerHTML = `
+            <h1>🎉 ¡Juego terminado!</h1>
+            <h2>Puntos: ${puntosNumero} / ${totalPreguntas}</h2>
+            <div class="modulo-banda" style="background:#FF9100;margin-top:14px;" onclick="abrirNumeros()"><span class="banda-emoji">↩️</span><span class="banda-nombre">Volver al menú</span><span class="banda-deco">←</span></div>
+        `;
+        return;
+    }
+    numeroCorrecto = numerosOrden[indiceNum++];
+    const lista = getNumeros();
+    const nc = numeroCorrecto.valor;
+    const nw = numeroCorrecto.palabra;
+    const emoji = emojisSetA[Math.floor(Math.random() * emojisSetA.length)];
+    const contar = familiaNumero <= 1;
+    const rep = `<button onclick="hablar('${nw}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:26px;vertical-align:middle;margin-left:8px;">🔊</button>`;
+
+    /* 🟢 N1 — RECONOCIMIENTO: ve el número, encuentra el mismo */
+    if(dificultadNumeroActual === 1){
+        hablar(nw);
+        let distractores = mezclar(lista.filter(n=>n.valor!==nc)).slice(0,2);
+        let opciones = mezclar([numeroCorrecto,...distractores]);
+        if(contar){
+            /* familia 1-10: ve el grupo de emojis, identifica qué número es */
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>¿Qué número es? ${rep}</h1>
+                <div style="font-size:${_esz(nc)};letter-spacing:2px;margin:10px 0;line-height:1.2;word-break:break-all;">${generarObjetos(nc,emoji)}</div>
+                <div class="grid">
+                ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+                </div>
+            `;
+        } else {
+            /* familia 11-100: ve el número, encuentra el mismo entre opciones */
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>¿Cuál es el mismo número? ${rep}</h1>
+                <div style="margin:10px 0 14px 0;">${numDisplay(nc,'140px')}</div>
+                <div class="grid">
+                ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+                </div>
+            `;
+        }
+    }
+
+    /* 🔵 N2 — RELACIÓN: conecta el numeral con su representación */
+    if(dificultadNumeroActual === 2){
+        hablar(nw);
+        let distractores = mezclar(lista.filter(n=>n.valor!==nc)).slice(0,2);
+        let opciones = mezclar([numeroCorrecto,...distractores]);
+        if(contar){
+            /* familia 1-10: ve el numeral, elige el grupo que lo representa */
+            const esz2 = _esz(Math.max(...opciones.map(o=>o.valor)));
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>¿Qué grupo tiene este número? ${rep}</h1>
+                <div style="margin:8px 0 12px 0;">${numDisplay(nc,'130px')}</div>
+                <div class="grid">
+                ${opciones.map(n=>`<button class="big-btn" style="font-size:${esz2};line-height:1.1;word-break:break-all;overflow:hidden;" onclick="verificarNumero(${n.valor})">${generarObjetos(n.valor,emoji)}</button>`).join('')}
+                </div>
+            `;
+        } else {
+            /* familia 11-100: ve la palabra escrita, elige el numeral */
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>¿Cuál es el número <span style="color:#e00000;">"${nw}"</span>? ${rep}</h1>
+                <div class="grid">
+                ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+                </div>
+            `;
+        }
+    }
+
+    /* 🟡 N3 — CLASIFICACIÓN: ¿cuál es mayor o menor? */
+    if(dificultadNumeroActual === 3){
+        hablar(nw);
+        const menores = lista.filter(n=>n.valor < nc);
+        const mayores = lista.filter(n=>n.valor > nc);
+        let distractores, pregClasif;
+        if(menores.length >= 2){
+            distractores = mezclar(menores).slice(0,2);
+            pregClasif = contar ? "¿Cuál grupo tiene <span style='color:#e00000;'>más</span>?" : "¿Cuál es el número <span style='color:#e00000;'>más grande</span>?";
+        } else {
+            distractores = mezclar(mayores).slice(0,2);
+            pregClasif = contar ? "¿Cuál grupo tiene <span style='color:#e00000;'>menos</span>?" : "¿Cuál es el número <span style='color:#e00000;'>más pequeño</span>?";
+        }
+        let opciones = mezclar([numeroCorrecto,...distractores]);
+        if(contar){
+            const emojisOp = mezclar([...emojisSetA]).slice(0,3);
+            const esz3 = _esz(Math.max(...opciones.map(o=>o.valor)));
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>${pregClasif} ${rep}</h1>
+                <div class="grid">
+                ${opciones.map((n,i)=>`<button class="big-btn" style="font-size:${esz3};line-height:1.1;word-break:break-all;overflow:hidden;" onclick="verificarNumero(${n.valor})">${generarObjetos(n.valor,emojisOp[i]||emoji)}</button>`).join('')}
+                </div>
+            `;
+        } else {
+            contenido.innerHTML = `
+                ${mostrarScoreNumero()}
+                <h1>${pregClasif} ${rep}</h1>
+                <div class="grid">
+                ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+                </div>
+            `;
+        }
+    }
+
+    /* 🟠 N4 — COMPRENSIÓN: completa la secuencia */
+    if(dificultadNumeroActual === 4){
+        hablar(nw);
+        let seqStr, qStr;
+        if(nc >= 3){
+            seqStr = `${numDisplay(nc-2,'42px')} → ${numDisplay(nc-1,'42px')} → ?`;
+            qStr = "¿Qué número sigue?";
+        } else {
+            seqStr = `? → ${numDisplay(nc+1,'42px')} → ${numDisplay(nc+2,'42px')}`;
+            qStr = "¿Qué número va primero?";
+        }
+        let d1v = nc < 100 ? nc+1 : nc-1;
+        let d2v = nc > 1 ? nc-1 : nc+2;
+        if(d2v === d1v) d2v = nc+2<=100 ? nc+2 : nc-2;
+        const opciones = mezclar([numeroCorrecto, numerosData[d1v-1], numerosData[d2v-1]]);
+        contenido.innerHTML = `
+            ${mostrarScoreNumero()}
+            <h1>${qStr} ${rep}</h1>
+            <div style="font-size:22px;font-weight:bold;margin:14px 0;letter-spacing:3px;">${seqStr}</div>
+            <div class="grid">
+            ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 🔴 N5 — GENERALIZACIÓN: ¿cuál no pertenece? (par / impar) */
+    if(dificultadNumeroActual === 5){
+        hablar(nw);
+        const ncEsPar = nc % 2 === 0;
+        const opuestos = lista.filter(n=>n.valor!==nc && (n.valor%2===0)!==ncEsPar);
+        let distractores, hint;
+        if(opuestos.length >= 2){
+            distractores = mezclar(opuestos).slice(0,2);
+            hint = ncEsPar ? "Los otros son números <b>impares</b>" : "Los otros son números <b>pares</b>";
+        } else {
+            const men = lista.filter(n=>n.valor<nc);
+            distractores = men.length>=2 ? mezclar(men).slice(0,2)
+                                         : mezclar(lista.filter(n=>n.valor>nc)).slice(0,2);
+            hint = men.length>=2 ? "Los otros son más pequeños" : "Los otros son más grandes";
+        }
+        const opciones = mezclar([numeroCorrecto,...distractores]);
+        contenido.innerHTML = `
+            ${mostrarScoreNumero()}
+            <h1>¿Cuál NO pertenece? ${rep}</h1>
+            <p style="font-size:20px;color:#555;margin:4px 0 14px 0;">${hint}</p>
+            <div class="grid">
+            ${opciones.map(n=>`<button class="big-btn" onclick="verificarNumero(${n.valor})">${numDisplay(n.valor,'80px')}</button>`).join('')}
+            </div>
+        `;
+    }
+}
+
+function verificarNumero(r){
+    if(r === numeroCorrecto.valor){
+        puntosNumero++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteNumero();
+}
+
+/* ========================= */
+/* 🔷 FORMAS */
+/* ========================= */
+
+const formasData = [
+    {nombre:"Círculo",    simbolo:"🟡", color:"#e53935", objetos:["⚽","🌍","🎱","🪙","🎈"],  nivel:1},
+    {nombre:"Cuadrado",   simbolo:"🟥", color:"#1e88e5", objetos:["🎁","📦","","🪟"],  nivel:1},
+    {nombre:"Triángulo",  simbolo:"🔺", color:"#f9a825", objetos:["⛺","📐","🎄","🏔️"], nivel:1},
+    {nombre:"Rectángulo", simbolo:"📺", objetos:["📺","📱","🚪","📕","🎂"],  nivel:2},
+    {nombre:"Óvalo",      simbolo:"🥚", objetos:["🥚","🫒","🏈","🌕"],  nivel:2},
+    {nombre:"Rombo",      simbolo:"🔷", objetos:["💎","♦️","🔮","🎯"],  nivel:3},
+    {nombre:"Estrella",   simbolo:"⭐", objetos:["🌟","✨","🏅","🌠"],  nivel:3},
+    {nombre:"Corazón",    simbolo:"❤️", objetos:["💕","🫶","🍓","💝"],  nivel:3},
+];
+
+let nivelForma = 1;
+function getFormas(){ return formasData.filter(f => f.nivel <= nivelForma); }
+
+let formaCorrecta;
+let preguntasForma = 0;
+let puntosForma = 0;
+let dificultadFormaActual = null;
+let subSeccionFormas = "menu";
+
+function abrirFormas(){
+    seccionActual = "formas";
+    subSeccionFormas = "menu";
+    inicio.style.display = "none";
+    actividad.style.display = "none";
+    nivel.innerHTML = `
+        <h1>🔷 Nivel Formas</h1>
+        <div style="margin:6px 0 8px 0;">
+            <button id="btnFormaBasico" class="modo-btn" onclick="setNivelForma(1)">🌱 Básico</button>
+            <button id="btnFormaIntermedio" class="modo-btn" onclick="setNivelForma(2)">🌿 Intermedio</button>
+            <button id="btnFormaAvanzado" class="modo-btn" onclick="setNivelForma(3)">🌳 Avanzado</button>
+        </div>
+        ${htmlCaminito([
+            {nombre:'Asociación',    fn:'f1()'},
+            {nombre:'Selección',     fn:'f2()'},
+            {nombre:'Clasificación', fn:'f3()'},
+            {nombre:'Denominación',  fn:'f4()'},
+            {nombre:'Generalización',fn:'f5()'}
+        ])}
+        <div class="modulo-banda" style="background:#FF9100;margin-top:14px;" onclick="volverInicio()"><span class="banda-emoji">↩️</span><span class="banda-nombre">Volver a módulos</span><span class="banda-deco">←</span></div>
+    `;
+    nivel.style.display = "block";
+    document.getElementById('btnFormaBasico').classList.toggle('modo-activo', nivelForma === 1);
+    document.getElementById('btnFormaIntermedio').classList.toggle('modo-activo', nivelForma === 2);
+    document.getElementById('btnFormaAvanzado').classList.toggle('modo-activo', nivelForma === 3);
+}
+
+function setNivelForma(n){
+    nivelForma = n;
+    document.getElementById('btnFormaBasico').classList.toggle('modo-activo', n === 1);
+    document.getElementById('btnFormaIntermedio').classList.toggle('modo-activo', n === 2);
+    document.getElementById('btnFormaAvanzado').classList.toggle('modo-activo', n === 3);
+}
+
+function iniciarForma(){
+    preguntasForma = 0;
+    puntosForma = 0;
+    nivel.style.display = "none";
+    actividad.style.display = "block";
+}
+
+function mostrarScoreForma(){
+    return `<div class="score">⭐ ${puntosForma} / 5</div>`;
+}
+
+function f1(){ subSeccionFormas="juego"; dificultadFormaActual=1; iniciarForma(); siguienteForma(); }
+function f2(){ subSeccionFormas="juego"; dificultadFormaActual=2; iniciarForma(); siguienteForma(); }
+function f3(){ subSeccionFormas="juego"; dificultadFormaActual=3; iniciarForma(); siguienteForma(); }
+function f4(){ subSeccionFormas="juego"; dificultadFormaActual=4; iniciarForma(); siguienteForma(); }
+function f5(){ subSeccionFormas="juego"; dificultadFormaActual=5; iniciarForma(); siguienteForma(); }
+
+function fmSvg(f, sz){
+    if(!f.color) return `<span style="font-size:${sz}px;line-height:1;display:inline-block;">${f.simbolo}</span>`;
+    const c = f.color;
+    if(f.nombre==='Círculo')
+        return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" style="display:inline-block;vertical-align:middle;"><circle cx="50" cy="50" r="48" fill="${c}"/></svg>`;
+    if(f.nombre==='Cuadrado')
+        return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" style="display:inline-block;vertical-align:middle;"><rect x="2" y="2" width="96" height="96" fill="${c}" rx="6"/></svg>`;
+    if(f.nombre==='Triángulo')
+        return `<svg width="${sz}" height="${sz}" viewBox="0 0 100 100" style="display:inline-block;vertical-align:middle;"><polygon points="50,4 98,96 2,96" fill="${c}"/></svg>`;
+    return `<span style="font-size:${sz}px;line-height:1;display:inline-block;">${f.simbolo}</span>`;
+}
+
+function siguienteForma(){
+    if(preguntasForma >= 5){
+        contenido.innerHTML = `
+            <h1>🎉 ¡Juego terminado!</h1>
+            <h2>Puntos: ${puntosForma} / 5</h2>
+        `;
+        return;
+    }
+    preguntasForma++;
+    const lista = getFormas();
+    formaCorrecta = lista[Math.floor(Math.random() * lista.length)];
+    const avz = nivelForma === 3;
+    const ttsF = `<button onclick="hablar('${formaCorrecta.nombre}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:28px;vertical-align:middle;margin-left:8px;">🔊</button>`;
+
+    /* 1️⃣ ASOCIACIÓN — ve la forma, elige el objeto con esa forma */
+    if(dificultadFormaActual === 1){
+        if(!avz) hablar(formaCorrecta.nombre);
+        const objCorrecto = formaCorrecta.objetos[Math.floor(Math.random() * formaCorrecta.objetos.length)];
+        let distractores = mezclar(lista.filter(f => f.nombre !== formaCorrecta.nombre)).slice(0, 2);
+        let opciones = mezclar([
+            {obj: objCorrecto, nom: formaCorrecta.nombre},
+            ...distractores.map(f => ({obj: f.objetos[Math.floor(Math.random() * f.objetos.length)], nom: f.nombre}))
+        ]);
+        contenido.innerHTML = `
+            ${mostrarScoreForma()}
+            <h1>¿Qué objeto tiene forma de <span style="color:#e00000;">${formaCorrecta.nombre.toLowerCase()}</span>?
+            ${!avz?ttsF:''}</h1>
+            <div style="line-height:1;margin:10px 0;">${fmSvg(formaCorrecta, 120)}</div>
+            <div class="grid">
+            ${opciones.map(op => `<button class="big-btn" style="background:white;color:#e00000;font-size:105px;" onclick="verificarForma('${op.nom}')">${op.obj}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 2️⃣ SELECCIÓN — lee o escucha el nombre, toca la forma correcta */
+    if(dificultadFormaActual === 2){
+        if(!avz) hablar(formaCorrecta.nombre);
+        let opciones = mezclar(lista.filter(f => f.nombre !== formaCorrecta.nombre)).slice(0, 2);
+        opciones.push(formaCorrecta);
+        opciones = mezclar(opciones);
+        contenido.innerHTML = `
+            ${mostrarScoreForma()}
+            <h1>${avz?'Lee y toca:':'Toca la forma:'} <span style="color:#e00000;font-weight:bold;">${formaCorrecta.nombre.toLowerCase()}</span>
+            ${!avz?ttsF:''}</h1>
+            <div class="grid">
+            ${opciones.map(f => `<button class="big-btn" style="background:white;color:#e00000;" onclick="verificarForma('${f.nombre}')">${fmSvg(f, 100)}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 3️⃣ CLASIFICACIÓN — ve un objeto, identifica su forma */
+    if(dificultadFormaActual === 3){
+        const objeto = formaCorrecta.objetos[Math.floor(Math.random() * formaCorrecta.objetos.length)];
+        let opciones = mezclar(lista.filter(f => f.nombre !== formaCorrecta.nombre)).slice(0, 2);
+        opciones.push(formaCorrecta);
+        opciones = mezclar(opciones);
+        contenido.innerHTML = `
+            ${mostrarScoreForma()}
+            <h1>¿Qué forma tiene este objeto?</h1>
+            <div style="font-size:120px;line-height:1;margin:10px 0;">${objeto}</div>
+            <div class="grid">
+            ${opciones.map(f => `<button class="big-btn" style="background:white;color:#e00000;font-size:${nivelForma===1?'0':'40px'};font-weight:bold;" onclick="${!avz?`hablar('${f.nombre}'); `:''}verificarForma('${f.nombre}')">${nivelForma===1?fmSvg(f, 100):f.nombre.toLowerCase()}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 4️⃣ DENOMINACIÓN */
+    if(dificultadFormaActual === 4){
+        let opciones = mezclar(lista.filter(f => f.nombre !== formaCorrecta.nombre)).slice(0, 2);
+        opciones.push(formaCorrecta);
+        opciones = mezclar(opciones);
+        if(avz){
+            /* Avanzado: lee el nombre → toca el símbolo correcto */
+            contenido.innerHTML = `
+                ${mostrarScoreForma()}
+                <h1>Lee el nombre y toca la forma:</h1>
+                <div style="font-size:54px;font-weight:bold;color:#e00000;margin:16px 0;">${formaCorrecta.nombre.toLowerCase()}</div>
+                <div class="grid">
+                ${opciones.map(f => `<button class="big-btn" style="background:white;color:#e00000;" onclick="verificarForma('${f.nombre}')">${fmSvg(f, 100)}</button>`).join('')}
+                </div>
+            `;
+        } else {
+            /* Básico/Intermedio: escucha → elige símbolo o palabra */
+            hablar(formaCorrecta.nombre);
+            contenido.innerHTML = `
+                ${mostrarScoreForma()}
+                <h1>🔊 ¿Cómo se llama esta forma?</h1>
+                <div style="line-height:1;margin:10px auto;cursor:pointer;box-shadow:0 0 0 6px #ffd700;border-radius:20px;display:inline-block;padding:10px;"
+                    onclick="hablar('${formaCorrecta.nombre}')">${fmSvg(formaCorrecta, 120)}</div>
+                <p style="font-size:20px;color:#555;margin:8px 0 16px 0;">👆 Toca para escuchar otra vez</p>
+                <div class="grid">
+                ${opciones.map(f => `<button class="big-btn" style="background:white;color:#e00000;font-size:${nivelForma===1?'0':'40px'};font-weight:bold;" onclick="verificarForma('${f.nombre}')">${nivelForma===1?fmSvg(f, 100):f.nombre.toLowerCase()}</button>`).join('')}
+                </div>
+            `;
+        }
+    }
+
+    /* 5️⃣ GENERALIZACIÓN — ve la forma, elige el objeto real que la tiene */
+    if(dificultadFormaActual === 5){
+        if(!avz) hablar(formaCorrecta.nombre);
+        const objCorrecto = formaCorrecta.objetos[Math.floor(Math.random() * formaCorrecta.objetos.length)];
+        let distractores = mezclar(lista.filter(f => f.nombre !== formaCorrecta.nombre)).slice(0, 2);
+        let opciones = mezclar([
+            {obj: objCorrecto, nom: formaCorrecta.nombre},
+            ...distractores.map(f => ({obj: f.objetos[Math.floor(Math.random() * f.objetos.length)], nom: f.nombre}))
+        ]);
+        contenido.innerHTML = `
+            ${mostrarScoreForma()}
+            <h1>¿Cuál objeto tiene forma de <span style="color:#e00000;font-weight:bold;">${formaCorrecta.nombre.toLowerCase()}</span>?
+            ${!avz?ttsF:''}</h1>
+            <div class="grid">
+            ${opciones.map(op => `<button class="big-btn" style="background:white;color:#e00000;font-size:105px;" onclick="${!avz?`hablar('${op.nom}'); `:''}verificarForma('${op.nom}')">${op.obj}</button>`).join('')}
+            </div>
+        `;
+    }
+}
+
+function verificarForma(r){
+    if(r === formaCorrecta.nombre){
+        puntosForma++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteForma();
+}
+
+/* ========================= */
+/* 🐾 ANIMALES */
+/* ========================= */
+
+const animalesData = [
+    {nombre:"Perro",    emoji:"🐶", sonido:"perro.mp3",    nivel:1, tipo:"mascota"},
+    {nombre:"Gato",     emoji:"🐱", sonido:"gato.mp3",     nivel:1, tipo:"mascota"},
+    {nombre:"Vaca",     emoji:"🐄", sonido:"vaca.mp3",     nivel:1, tipo:"granja"},
+    {nombre:"Caballo",  emoji:"🐴", sonido:"caballo.mp3",  nivel:1, tipo:"granja"},
+    {nombre:"Pato",     emoji:"🦆", sonido:"pato.mp3",     nivel:1, tipo:"granja"},
+    {nombre:"Cerdo",    emoji:"🐷", sonido:"cerdo.mp3",    nivel:2, tipo:"granja"},
+    {nombre:"Oveja",    emoji:"🐑", sonido:"Oveja.mp3",    nivel:2, tipo:"granja"},
+    {nombre:"Gallina",  emoji:"🐔", sonido:"gallo.mp3",    nivel:2, tipo:"granja"},
+    {nombre:"Conejo",   emoji:"🐰", sonido:"Conejo.mp3",   nivel:2, tipo:"mascota"},
+    {nombre:"Mono",     emoji:"🐒", sonido:"mono.mp3",     nivel:2, tipo:"salvaje"},
+    {nombre:"León",     emoji:"🦁", sonido:"León.mp3",     nivel:3, tipo:"salvaje"},
+    {nombre:"Elefante", emoji:"🐘", sonido:"elefante.mp3", nivel:3, tipo:"salvaje"},
+    {nombre:"Jirafa",   emoji:"🦒", sonido:"Jirafa.mp3",   nivel:3, tipo:"salvaje"},
+    {nombre:"Tigre",    emoji:"🐯", sonido:"Tigre.mp3",    nivel:3, tipo:"salvaje"},
+    {nombre:"Rana",     emoji:"🐸", sonido:"rana.mp3",     nivel:3, tipo:"salvaje"},
+    {nombre:"Oso",      emoji:"🐻", sonido:"Oso.mp3",      nivel:3, tipo:"salvaje"},
+    {nombre:"Mariposa", emoji:"🦋", sonido:null,           nivel:3, tipo:"salvaje"},
+    {nombre:"Tortuga",  emoji:"🐢", sonido:null,           nivel:3, tipo:"salvaje"},
+];
+
+let nivelAnimal = 1;
+function getAnimales(){ return animalesData.filter(a => a.nivel <= nivelAnimal); }
+function tocarSonido(s){
+    if(!s) return;
+    const a = new Audio('audios/'+s);
+    a.play().catch(()=>{});
+    setTimeout(()=>{ a.pause(); a.currentTime=0; }, 5000);
+}
+
+let animalCorrecto;
+let preguntasAnimal = 0;
+let puntosAnimal = 0;
+let dificultadAnimalActual = null;
+let subSeccionAnimales = "menu";
+
+function abrirAnimales(){
+    seccionActual = "animales";
+    subSeccionAnimales = "menu";
+    inicio.style.display = "none";
+    actividad.style.display = "none";
+    nivel.innerHTML = `
+        <h1>🐾 Nivel Animales</h1>
+        <div style="margin:6px 0 8px 0;">
+            <button id="btnAnimalInicial" class="modo-btn" onclick="setNivelAnimal(1)">🌱 Inicial</button>
+            <button id="btnAnimalIntermedio" class="modo-btn" onclick="setNivelAnimal(2)">🌿 Intermedio</button>
+            <button id="btnAnimalAvanzado" class="modo-btn" onclick="setNivelAnimal(3)">🌳 Avanzado</button>
+        </div>
+        ${htmlCaminito([
+            {nombre:'Asociación',    fn:'a1()'},
+            {nombre:'Selección',     fn:'a2()'},
+            {nombre:'Clasificación', fn:'a3()'},
+            {nombre:'Denominación',  fn:'a4()'},
+            {nombre:'Generalización',fn:'a5()'}
+        ])}
+        <div class="modulo-banda" style="background:#FF9100;margin-top:14px;" onclick="volverInicio()"><span class="banda-emoji">↩️</span><span class="banda-nombre">Volver a módulos</span><span class="banda-deco">←</span></div>
+    `;
+    nivel.style.display = "block";
+    document.getElementById('btnAnimalInicial').classList.toggle('modo-activo', nivelAnimal === 1);
+    document.getElementById('btnAnimalIntermedio').classList.toggle('modo-activo', nivelAnimal === 2);
+    document.getElementById('btnAnimalAvanzado').classList.toggle('modo-activo', nivelAnimal === 3);
+}
+
+function setNivelAnimal(n){
+    nivelAnimal = n;
+    document.getElementById('btnAnimalInicial').classList.toggle('modo-activo', n === 1);
+    document.getElementById('btnAnimalIntermedio').classList.toggle('modo-activo', n === 2);
+    document.getElementById('btnAnimalAvanzado').classList.toggle('modo-activo', n === 3);
+}
+
+function iniciarAnimal(){
+    preguntasAnimal = 0;
+    puntosAnimal = 0;
+    nivel.style.display = "none";
+    actividad.style.display = "block";
+}
+
+function mostrarScoreAnimal(){
+    return `<div class="score">⭐ ${puntosAnimal} / 5</div>`;
+}
+
+function a1(){ subSeccionAnimales="juego"; dificultadAnimalActual=1; iniciarAnimal(); siguienteAnimal(); }
+function a2(){ subSeccionAnimales="juego"; dificultadAnimalActual=2; iniciarAnimal(); siguienteAnimal(); }
+function a3(){ subSeccionAnimales="juego"; dificultadAnimalActual=3; iniciarAnimal(); siguienteAnimal(); }
+function a4(){ subSeccionAnimales="juego"; dificultadAnimalActual=4; iniciarAnimal(); siguienteAnimal(); }
+function a5(){ subSeccionAnimales="juego"; dificultadAnimalActual=5; iniciarAnimal(); siguienteAnimal(); }
+
+function siguienteAnimal(){
+    if(preguntasAnimal >= 5){
+        contenido.innerHTML = `
+            <h1>🎉 ¡Juego terminado!</h1>
+            <h2>Puntos: ${puntosAnimal} / 5</h2>
+        `;
+        return;
+    }
+    preguntasAnimal++;
+    const lista = getAnimales();
+    animalCorrecto = lista[Math.floor(Math.random() * lista.length)];
+    const avz = nivelAnimal === 3;
+    const sndBtn = animalCorrecto.sonido
+        ? `<button onclick="tocarSonido('${animalCorrecto.sonido}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:28px;vertical-align:middle;margin-left:8px;">🔉</button>`
+        : '';
+    const ttsBtn = `<button onclick="hablar('${animalCorrecto.nombre}')" style="border:2px solid #ccc;background:#fff;border-radius:15px;padding:4px 12px;cursor:pointer;font-size:28px;vertical-align:middle;margin-left:8px;">🔊</button>`;
+
+    /* 1️⃣ ASOCIACIÓN — ve emoji grande, elige nombre o emoji */
+    if(dificultadAnimalActual === 1){
+        if(!avz) hablar(animalCorrecto.nombre);
+        let opciones = mezclar(lista.filter(a => a.nombre !== animalCorrecto.nombre)).slice(0, 2);
+        opciones.push(animalCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML = `
+            ${mostrarScoreAnimal()}
+            <h1>¿Qué animal es este? ${!avz?ttsBtn:''} ${sndBtn}</h1>
+            <div style="font-size:160px;line-height:1;margin:10px 0;">${animalCorrecto.emoji}</div>
+            <div class="grid">
+            ${opciones.map(a => `<button class="big-btn" style="background:white;color:#e00000;font-size:${nivelAnimal===1?'115px':'40px'};font-weight:bold;" onclick="verificarAnimal('${a.nombre}')">${nivelAnimal===1?a.emoji:a.nombre.toLowerCase()}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 2️⃣ SELECCIÓN — lee o escucha el nombre, toca el emoji correcto */
+    if(dificultadAnimalActual === 2){
+        if(!avz) hablar(animalCorrecto.nombre);
+        let opciones = mezclar(lista.filter(a => a.nombre !== animalCorrecto.nombre)).slice(0, 2);
+        opciones.push(animalCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML = `
+            ${mostrarScoreAnimal()}
+            <h1>${avz?'Lee y toca:':'Toca el animal:'} <span style="color:#e00000;font-weight:bold;">${animalCorrecto.nombre.toLowerCase()}</span>
+            ${!avz?ttsBtn:''} ${sndBtn}</h1>
+            <div class="grid">
+            ${opciones.map(a => `<button class="big-btn" style="background:white;color:#e00000;font-size:115px;" onclick="verificarAnimal('${a.nombre}')">${a.emoji}</button>`).join('')}
+            </div>
+        `;
+    }
+
+    /* 3️⃣ CLASIFICACIÓN — mascota, granja o salvaje */
+    if(dificultadAnimalActual === 3){
+        const imgH = nivelAnimal > 1 ? '145px' : '182px';
+        contenido.innerHTML = `
+            ${mostrarScoreAnimal()}
+            <h1>¿Dónde vive este animal? ${sndBtn}</h1>
+            <div style="font-size:160px;line-height:1;margin:10px 0;">${animalCorrecto.emoji}</div>
+            ${nivelAnimal>1?`<h2 style="font-size:32px;color:#555;margin:5px 0;">${animalCorrecto.nombre}</h2>`:''}
+            <div class="grid">
+                <button class="big-btn" style="background:white;color:#e00000;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold;"
+                    onclick="verificarTipoAnimal('mascota')">
+                    <img src="imagenes/Objetos/Casa.jpg" style="width:100%;height:${imgH};object-fit:cover;border-radius:12px;">
+                    ${nivelAnimal>1?'<span style="font-size:20px;margin-top:6px;">casa</span>':''}
+                </button>
+                <button class="big-btn" style="background:white;color:#e00000;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold;"
+                    onclick="verificarTipoAnimal('granja')">
+                    <img src="imagenes/Objetos/Granja.jpg" style="width:100%;height:${imgH};object-fit:cover;border-radius:12px;">
+                    ${nivelAnimal>1?'<span style="font-size:20px;margin-top:6px;">granja</span>':''}
+                </button>
+                <button class="big-btn" style="background:white;color:#e00000;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold;"
+                    onclick="verificarTipoAnimal('salvaje')">
+                    <img src="imagenes/Objetos/Bosque.jpg" style="width:100%;height:${imgH};object-fit:cover;border-radius:12px;">
+                    ${nivelAnimal>1?'<span style="font-size:20px;margin-top:6px;">bosque</span>':''}
+                </button>
+            </div>
+        `;
+    }
+
+    /* 4️⃣ DENOMINACIÓN */
+    if(dificultadAnimalActual === 4){
+        let opciones = mezclar(lista.filter(a => a.nombre !== animalCorrecto.nombre)).slice(0, 2);
+        opciones.push(animalCorrecto);
+        opciones = mezclar(opciones);
+        if(avz){
+            /* Avanzado: lee el nombre → toca el emoji correcto */
+            contenido.innerHTML = `
+                ${mostrarScoreAnimal()}
+                <h1>Lee el nombre y toca el emoji: ${sndBtn}</h1>
+                <div style="font-size:54px;font-weight:bold;color:#e00000;margin:16px 0;">${animalCorrecto.nombre.toLowerCase()}</div>
+                <div class="grid">
+                ${opciones.map(a => `<button class="big-btn" style="background:white;color:#e00000;font-size:115px;font-weight:bold;" onclick="verificarAnimal('${a.nombre}')">${a.emoji}</button>`).join('')}
+                </div>
+            `;
+        } else {
+            /* Básico/Intermedio: escucha el nombre → toca emoji o palabra */
+            hablar(animalCorrecto.nombre);
+            contenido.innerHTML = `
+                ${mostrarScoreAnimal()}
+                <h1>🔊 ¿Qué animal escuchas?</h1>
+                <div style="font-size:130px;line-height:1;margin:10px auto;cursor:pointer;box-shadow:0 0 0 6px #ffd700;border-radius:20px;display:inline-block;padding:10px;"
+                    onclick="hablar('${animalCorrecto.nombre}')">${animalCorrecto.emoji}</div>
+                <p style="font-size:20px;color:#555;margin:8px 0 16px 0;">👆 Toca para escuchar otra vez ${sndBtn}</p>
+                <div class="grid">
+                ${opciones.map(a => `<button class="big-btn" style="background:white;color:#e00000;font-size:${nivelAnimal===1?'115px':'40px'};font-weight:bold;" onclick="verificarAnimal('${a.nombre}')">${nivelAnimal===1?a.emoji:a.nombre.toLowerCase()}</button>`).join('')}
+                </div>
+            `;
+        }
+    }
+
+    /* 5️⃣ GENERALIZACIÓN — lee o escucha el nombre, encuéntralo entre varios */
+    if(dificultadAnimalActual === 5){
+        if(!avz) hablar(animalCorrecto.nombre);
+        let opciones = mezclar(lista.filter(a => a.nombre !== animalCorrecto.nombre)).slice(0, 2);
+        opciones.push(animalCorrecto);
+        opciones = mezclar(opciones);
+        contenido.innerHTML = `
+            ${mostrarScoreAnimal()}
+            <h1>${avz
+                ? `Lee y toca: <span style="color:#e00000;font-weight:bold;">${animalCorrecto.nombre.toLowerCase()}</span>`
+                : `¿Dónde está el <span style="color:#e00000;font-weight:bold;">${animalCorrecto.nombre.toLowerCase()}</span>?`}
+            ${!avz?ttsBtn:''} ${sndBtn}</h1>
+            <div class="grid">
+            ${opciones.map(a => `<button class="big-btn" style="background:white;color:#e00000;font-size:115px;" onclick="${!avz?`hablar('${a.nombre}'); `:''}verificarAnimal('${a.nombre}')">${a.emoji}</button>`).join('')}
+            </div>
+        `;
+    }
+}
+
+function verificarAnimal(r){
+    if(r === animalCorrecto.nombre){
+        puntosAnimal++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteAnimal();
+}
+
+function verificarTipoAnimal(tipo){
+    if(tipo === animalCorrecto.tipo){
+        puntosAnimal++;
+        mostrarFeedback(true);
+    } else {
+        mostrarFeedback(false);
+    }
+    siguienteAnimal();
+}
+
+
+
+
+
+/* ── LETRAS Y PALABRAS A-Z movidos a letras-palabras.html ── */
+function abrirLetras() {
+    window.location.href = 'letras-palabras.html';
+}
+
+
+/* ── Control de volumen ── */
+function togglePanelVol(){
+    document.getElementById('panel-volumen').classList.toggle('abierto');
+}
+function cambiarVolumen(val){
+    const musica = document.getElementById('musica-fondo');
+    const v = parseInt(val) / 100;
+    musica.volume = v;
+    musica.muted = (v === 0);
+    document.getElementById('vol-pct').textContent = val + '%';
+    const btn = document.getElementById('btn-volumen');
+    if(v === 0)       btn.textContent = '🔇';
+    else if(v < 0.35) btn.textContent = '🔉';
+    else              btn.textContent = '🔊';
+}
+document.addEventListener('click', function(e){
+    const ctrl = document.getElementById('control-volumen');
+    if(ctrl && !ctrl.contains(e.target)){
+        document.getElementById('panel-volumen').classList.remove('abierto');
+    }
+});
+
+/* ── Música de fondo ── */
+(function(){
+    const musica = document.getElementById('musica-fondo');
+    musica.volume = 0.45;
+    const iniciar = () => { musica.play().catch(()=>{}); };
+    // Intento de autoplay inmediato
+    musica.play().catch(() => {
+        // Navegador bloqueó autoplay → arranca en el primer gesto del usuario
+        ['click','touchstart','keydown'].forEach(ev =>
+            document.addEventListener(ev, iniciar, { once: true })
+        );
+    });
+})();
+
+function irAModulos(){
+    document.getElementById('pantalla-inicio').style.display = 'none';
+    document.getElementById('inicio').style.display = 'block';
+    document.getElementById('fondo-modulos').style.display = 'block';
+    document.getElementById('logo-izq').style.display = 'block';
+    document.getElementById('logo-der').style.display = 'block';
+    document.getElementById('btn-home-global').style.display = 'block';
+}
+
+function irAPantallaPrincipal(){
+    document.getElementById('pantalla-inicio').style.display = 'block';
+    document.getElementById('inicio').style.display = 'none';
+    document.getElementById('nivel').style.display = 'none';
+    document.getElementById('actividad').style.display = 'none';
+    document.getElementById('fondo-modulos').style.display = 'none';
+    document.getElementById('logo-izq').style.display = 'none';
+    document.getElementById('logo-der').style.display = 'none';
+    document.getElementById('btn-home-global').style.display = 'none';
+}
+
+if(window.location.hash === '#modulos'){
+    window.addEventListener('DOMContentLoaded', irAModulos);
+}
+
+</script>
+<!-- Botón Home global (esquina inferior izquierda, oculto en pantalla principal) -->
+<div id="btn-home-global">
+    <button onclick="irAPantallaPrincipal()" title="Pantalla principal">🏠</button>
+</div>
+
+<!-- Control de volumen flotante -->
+<div id="control-volumen">
+    <div id="panel-volumen">
+        <span class="vol-label" id="vol-pct">45%</span>
+        <input type="range" id="slider-vol" min="0" max="100" step="5" value="45"
+               oninput="cambiarVolumen(this.value)">
+        <span class="vol-label">🔇</span>
+    </div>
+    <button id="btn-volumen" onclick="togglePanelVol()" title="Volumen">🔊</button>
+</div>
+
+</body>
+</html>
