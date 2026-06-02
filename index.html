@@ -561,6 +561,186 @@ h1{
     #btn-home-global button { width: 46px; height: 46px; font-size: 22px; }
 }
 
+/* === BOTÓN INFO EN PANTALLA PRINCIPAL === */
+#btn-info-principal {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.22);
+    backdrop-filter: blur(6px);
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    transition: transform 0.18s, background 0.18s;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#btn-info-principal:hover {
+    transform: scale(1.12) rotate(20deg);
+    background: rgba(255,255,255,0.5);
+}
+@media (max-width: 480px) {
+    #btn-info-principal { width: 44px; height: 44px; font-size: 22px; bottom: 14px; left: 14px; }
+}
+
+/* === PANEL MODAL DE INFORMACIÓN === */
+#panel-info-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 99999;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+#panel-info-overlay.abierto { display: flex; }
+#panel-info-box {
+    background: #fff;
+    border-radius: 28px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 12px 50px rgba(0,0,0,0.35);
+    animation: popIn 0.28s ease;
+    overflow: hidden;
+    position: relative;
+}
+.info-header {
+    background: linear-gradient(135deg, #2979FF 0%, #00AA44 100%);
+    padding: 18px 20px 14px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.info-header h2 {
+    margin: 0;
+    color: white;
+    font-size: clamp(20px, 5vw, 26px);
+    font-family: Comic Sans MS, Arial;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.info-cerrar {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, transform 0.15s;
+    z-index: 2;
+}
+.info-cerrar:hover { background: rgba(255,255,255,0.45); transform: scale(1.12); }
+
+/* Tabs */
+.info-tabs {
+    display: flex;
+    gap: 0;
+    background: #f0f4ff;
+    padding: 10px 14px 0;
+    flex-shrink: 0;
+    border-bottom: 2px solid #e0e7ff;
+}
+.info-tab-btn {
+    flex: 1;
+    padding: 9px 6px 10px;
+    font-size: clamp(12px, 3vw, 15px);
+    font-family: Comic Sans MS, Arial;
+    font-weight: bold;
+    border: none;
+    border-radius: 14px 14px 0 0;
+    background: transparent;
+    color: #6b7a99;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+}
+.info-tab-btn:hover { background: rgba(41,121,255,0.1); color: #2979FF; }
+.info-tab-btn.activo {
+    background: white;
+    color: #2979FF;
+    border-bottom: 2px solid white;
+    margin-bottom: -2px;
+    box-shadow: 0 -3px 10px rgba(41,121,255,0.10);
+}
+
+/* Contenido de tabs */
+.info-tab-content {
+    overflow-y: auto;
+    padding: 20px 22px 24px;
+    flex: 1;
+    font-family: Comic Sans MS, Arial;
+    color: #333;
+    line-height: 1.6;
+}
+.info-seccion {
+    margin-bottom: 20px;
+}
+.info-seccion h3 {
+    font-size: clamp(15px, 3.5vw, 18px);
+    color: #2979FF;
+    margin: 0 0 6px 0;
+    border-left: 4px solid #2979FF;
+    padding-left: 10px;
+}
+.info-seccion p {
+    margin: 0;
+    font-size: clamp(13px, 3vw, 15px);
+    color: #444;
+}
+.info-autor-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #f7f9ff;
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e7ff;
+}
+.info-autor-avatar {
+    font-size: 40px;
+    flex-shrink: 0;
+}
+.info-autor-datos h4 {
+    margin: 0 0 2px 0;
+    font-size: clamp(14px, 3vw, 16px);
+    color: #2979FF;
+}
+.info-autor-datos p {
+    margin: 0;
+    font-size: clamp(12px, 2.5vw, 13px);
+    color: #666;
+}
+.info-placeholder {
+    text-align: center;
+    padding: 30px 10px;
+    color: #aab;
+    font-style: italic;
+    font-size: 15px;
+}
+@media (max-width: 480px) {
+    #panel-info-box { border-radius: 20px; max-height: 92vh; }
+    .info-tab-content { padding: 14px 14px 18px; }
+}
+
 /* === FONDO DE MÓDULOS === */
 #fondo-modulos {
     display: none;
@@ -608,6 +788,7 @@ h1{
         <img class="img-fondo" src="imagenes/Princial.png" alt="Aprende Jugando">
     </picture>
     <button class="btn-jugar" onclick="irAModulos()">Jugar</button>
+    <button id="btn-info-principal" onclick="abrirPanelInfo()" title="Información / Créditos">⚙️</button>
 </div>
 
 <div id="inicio" style="display:none">
@@ -1730,6 +1911,20 @@ function verificarTipoAnimal(tipo){
 
 
 
+/* ── Panel de Información ── */
+function abrirPanelInfo(){
+    document.getElementById('panel-info-overlay').classList.add('abierto');
+}
+function cerrarPanelInfo(){
+    document.getElementById('panel-info-overlay').classList.remove('abierto');
+}
+function verTabInfo(id, btn){
+    document.querySelectorAll('.info-tab-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.info-tab-btn').forEach(el => el.classList.remove('activo'));
+    document.getElementById('tab-' + id).style.display = 'block';
+    btn.classList.add('activo');
+}
+
 /* ── LETRAS Y PALABRAS A-Z movidos a letras-palabras.html ── */
 function abrirLetras() {
     window.location.href = 'letras-palabras.html';
@@ -1797,6 +1992,102 @@ if(window.location.hash === '#modulos'){
 }
 
 </script>
+<!-- ===== PANEL DE INFORMACIÓN / CRÉDITOS ===== -->
+<div id="panel-info-overlay" onclick="cerrarPanelInfo()">
+    <div id="panel-info-box" onclick="event.stopPropagation()">
+
+        <div class="info-header">
+            <h2>ℹ️ Información del Proyecto</h2>
+        </div>
+        <button class="info-cerrar" onclick="cerrarPanelInfo()">✕</button>
+
+        <!-- Pestañas -->
+        <div class="info-tabs">
+            <button class="info-tab-btn activo" onclick="verTabInfo('autores', this)">👥 Autores</button>
+            <button class="info-tab-btn" onclick="verTabInfo('escuelita', this)">🏫 Escuelita</button>
+            <button class="info-tab-btn" onclick="verTabInfo('derechos', this)">© Derechos</button>
+        </div>
+
+        <!-- ── Tab: Autores ── -->
+        <div class="info-tab-content" id="tab-autores">
+            <div class="info-seccion">
+                <h3>📋 Proyecto</h3>
+                <p>Aplicación Web Interactiva para la Digitalización del Método de Lectura Perceptivo-Discriminativo de María Victoria Troncoso</p>
+            </div>
+            <div class="info-seccion">
+                <h3>👩‍💻 Integrantes</h3>
+                <div class="info-autor-card">
+                    <div class="info-autor-avatar">🧑‍💻</div>
+                    <div class="info-autor-datos">
+                        <h4>Jesús Alberto Simaj Say</h4>
+                    </div>
+                </div>
+                <div class="info-autor-card">
+                    <div class="info-autor-avatar">👩‍💻</div>
+                    <div class="info-autor-datos">
+                        <h4>Demy Brictany De León Figueroa</h4>
+                    </div>
+                </div>
+                <div class="info-autor-card">
+                    <div class="info-autor-avatar">👩‍💻</div>
+                    <div class="info-autor-datos">
+                        <h4>Tonia Marcela Cotom Maldonado</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="info-seccion">
+                <h3>🎓 Universidad</h3>
+                <p><strong>Universidad Mesoamericana — Quetzaltenango</strong><br>
+                Facultad de Ingeniería<br>
+                Ingeniería en Sistemas, Informática y Ciencias de la Computación</p>
+            </div>
+        </div>
+
+        <!-- ── Tab: Escuelita ── -->
+        <div class="info-tab-content" id="tab-escuelita" style="display:none;">
+            <div class="info-seccion">
+                <h3>🏫 Institución Beneficiada</h3>
+                <p><strong>Escuela Oficial Urbana Mixta de Educación Especial "Xelajú"</strong></p>
+                <p style="margin-top:8px;">La aplicación fue desarrollada para apoyar el proceso de enseñanza de lectura en estudiantes con discapacidad intelectual, síndrome de Down y trastorno del espectro autista, mediante una herramienta interactiva basada en el método perceptivo-discriminativo.</p>
+            </div>
+            <div class="info-seccion">
+                <h3>📍 Ubicación</h3>
+                <p>Avenida Las Américas 0-70, zona 3, Quetzaltenango, contiguo al Zoológico Minerva.</p>
+                <p style="margin-top:6px;">La institución trabaja con metodologías inclusivas y estrategias visuales adaptadas a las necesidades cognitivas de sus estudiantes.</p>
+            </div>
+            <div class="info-seccion">
+                <h3>🌟 Misión</h3>
+                <p><em>"Somos una institución educativa dedicada a la formación integral de NNA con discapacidad intelectual, que brinda un ambiente agradable, de respeto y promoción de los derechos humanos, para favorecer la autonomía, calidad de vida, inclusión social y habilidades pre-laborales."</em></p>
+            </div>
+            <div class="info-seccion">
+                <h3>🔭 Visión</h3>
+                <p><em>"Ser una institución educativa en Quetzaltenango que además de la formación integral de sus estudiantes, garantice la igualdad de oportunidades, eliminando barreras físicas, actitudinales y pedagógicas."</em></p>
+            </div>
+        </div>
+
+        <!-- ── Tab: Derechos de Autor ── -->
+        <div class="info-tab-content" id="tab-derechos" style="display:none;">
+            <div class="info-seccion">
+                <h3>📖 Basado en obra literaria</h3>
+                <p>Este proyecto educativo se basa en el método perceptivo-discriminativo desarrollado por las autoras <strong>María Victoria Troncoso</strong> y <strong>María Mercedes del Cerro</strong> en la obra:</p>
+                <div class="info-autor-card" style="margin-top:10px;">
+                    <div class="info-autor-avatar">📚</div>
+                    <div class="info-autor-datos">
+                        <h4>"Síndrome de Down: Lectura y Escritura"</h4>
+                        <p>María Victoria Troncoso &amp; María Mercedes del Cerro, 2009</p>
+                    </div>
+                </div>
+                <p style="margin-top:10px;">El proyecto utiliza este método únicamente como base pedagógica y conceptual, respetando los derechos de autor y la propiedad intelectual de las autoras originales. No se reproduce contenido textual del material original.</p>
+            </div>
+            <div class="info-seccion">
+                <h3>🎨 Recursos e Imágenes</h3>
+                <p>Las imágenes y recursos utilizados dentro de la plataforma corresponden a material de licencia libre o de creación propia, con fines exclusivamente educativos.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <!-- Botón Home global (esquina inferior izquierda, oculto en pantalla principal) -->
 <div id="btn-home-global">
     <button onclick="irAPantallaPrincipal()" title="Pantalla principal">🏠</button>
